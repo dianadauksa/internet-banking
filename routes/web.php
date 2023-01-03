@@ -43,8 +43,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('bankAccounts')->group(function () {
     Route::get('/accounts', [BankAccountController::class, 'show'])->name('accounts.show');
-    Route::patch('/accounts', [BankAccountController::class, 'add'])->name('accounts.add');
-    Route::patch('/accounts', [BankAccountController::class, 'delete'])->name('accounts.delete');
+    Route::post('/accounts', [BankAccountController::class, 'add'])->name('accounts.add');
+    Route::delete('/accounts', [BankAccountController::class, 'delete'])->name('accounts.delete');
 });
 
 require __DIR__.'/auth.php';

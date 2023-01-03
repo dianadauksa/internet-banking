@@ -7,17 +7,17 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <h2>{{ Auth::user()->firstName  }}, you can open new or delete your bank accounts here.</h2>
+            <h2>{{ Auth::user()->firstName  }}, you can open new or delete your existing bank accounts here.</h2>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow sm:rounded-lg">
+                @foreach ($bankAccounts as $bankAccount)
                 <div class="p-6 text-gray-900">
-                    @foreach ($bankAccounts as $bankAccount)
                         Account name: {{ $bankAccount->name }}
                         Account number: {{ $bankAccount->account_number }}
                         Currency: {{ $bankAccount->currency }}
                         Money available: {{ $bankAccount->balance }} {{ $bankAccount->currency }}
-                    @endforeach
                 </div>
+                @endforeach
             </div>
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">

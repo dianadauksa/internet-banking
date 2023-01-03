@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BankAccount extends Model
 {
@@ -10,7 +11,7 @@ class BankAccount extends Model
         'name', 'account_number', 'currency', 'balance', 'user_id',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
