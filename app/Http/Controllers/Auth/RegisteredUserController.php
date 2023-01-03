@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\BankAccount;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -44,13 +45,42 @@ class RegisteredUserController extends Controller
             $userNumber = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
         } while (User::where('user_number', $userNumber)->exists());
 
+        $codes = [];
+        for ($i = 0; $i < 10; $i++) {
+            $codes[] = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+        }
+        $securityCodes = json_encode($codes);
+
         $user = User::create([
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_number' => $userNumber,
+            'security_codes' => $securityCodes,
         ]);
+
+        do {
+            $prefix = 'LV77ORCL';
+            $suffix = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
+            $accountNumber = $prefix . $suffix;
+        } while (BankAccount::where('account_number', $accountNumber)->exists());
+
+        $bankAccount = new BankAccount([
+            'name' => 'MAIN',
+            'account_number' => $accountNumber,
+            'currency' => 'EUR',
+            'amount' => 0.00,
+            'user_id' => $user->id,
+        ]);
+        $bankAccount->save();
+
+        // Find all bank accounts belonging to the user
+        //$bankAccounts = BankAccount::where('user_id', $user->id)->get();
+
+        // Find the user who owns a particular bank account
+        //$bankAccount = BankAccount::find(1);
+        //$user = $bankAccount->user;
 
         event(new Registered($user));
 
