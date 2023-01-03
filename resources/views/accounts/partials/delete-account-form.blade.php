@@ -21,7 +21,7 @@
                 class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                 required autofocus autocomplete="account_number">
                 @foreach ($bankAccounts as $bankAccount)
-                    @if ($bankAccount->name !== 'MAIN')
+                    @if ($bankAccount->name !== 'MAIN' and $bankAccount->balance == 0.00)
                     <option value="{{ $bankAccount->account_number }}">{{ $bankAccount->name }}
                         ({{ $bankAccount->account_number }})
                     </option>
