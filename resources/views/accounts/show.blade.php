@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Your Assets') }}
+            {{ __('Manage Your Accounts') }}
         </h2>
     </x-slot>
 
@@ -9,11 +9,13 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    {{ Auth::user()->firstName  }}, you can open new, edit the name of, or delete your accounts here.
+                    <br>
                     @foreach ($bankAccounts as $bankAccount)
                         Account name: {{ $bankAccount->name }}
                         Account number: {{ $bankAccount->account_number }}
                         Currency: {{ $bankAccount->currency }}
-                        Money available: {{ $bankAccount->amount }} {{ $bankAccount->currency }}
+                        Money available: {{ $bankAccount->balance }} {{ $bankAccount->currency }}
                     @endforeach
                 </div>
             </div>

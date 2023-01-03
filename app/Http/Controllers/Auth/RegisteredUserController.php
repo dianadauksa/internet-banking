@@ -70,20 +70,12 @@ class RegisteredUserController extends Controller
             'name' => 'MAIN',
             'account_number' => $accountNumber,
             'currency' => 'EUR',
-            'amount' => 0.00,
+            'balance' => 0.00,
             'user_id' => $user->id,
         ]);
         $bankAccount->save();
 
-        // Find all bank accounts belonging to the user
-        //$bankAccounts = BankAccount::where('user_id', $user->id)->get();
-
-        // Find the user who owns a particular bank account
-        //$bankAccount = BankAccount::find(1);
-        //$user = $bankAccount->user;
-
         event(new Registered($user));
-
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
