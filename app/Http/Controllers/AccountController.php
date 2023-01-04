@@ -36,7 +36,7 @@ class AccountController extends Controller
             return Redirect::back()->withErrors(['main-account' => 'You cannot change the name of MAIN account']);
         }
         $account->update($request->only('name'));
-        return Redirect::route('accounts.show', $account)->with('status', 'name-updated');
+        return Redirect::back()->with('status', 'name-updated');
     }
 
     /**
@@ -61,7 +61,7 @@ class AccountController extends Controller
         $newAccount->user()->associate(auth()->user());
         $newAccount->save();
 
-        return Redirect::route('accounts.showAll')->with('status', 'account-created');
+        return Redirect::back()->with('status', 'account-created');
     }
 
     /**
