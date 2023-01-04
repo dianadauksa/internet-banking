@@ -3,33 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\BankAccount;
-use Illuminate\Http\Request;
+use Illuminate\Http\{RedirectResponse, Request};
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class BankAccountController extends Controller
 {
     /**
      * Display all user's bank accounts
-     * @return \Illuminate\View\View
      */
-    public function show()
+    public function show(): View
     {
         return view('accounts.show');
     }
 
     /**
      * Add a new bank account to the bank accounts table and link it to the user
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function add(Request $request)
+    public function add(Request $request): RedirectResponse
     {
         do {
             $prefix = 'LV77ORCL';
             $suffix = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
             $accountNumber = $prefix . $suffix;
         } while (BankAccount::where('account_number', $accountNumber)->exists());
+
+        // TODO: modify database schema to include a unique constraint on the account_number column and rename account_number to number
 
         $bankAccount = new BankAccount([
             'name' => $request->name ?? 'New account',
@@ -45,11 +44,8 @@ class BankAccountController extends Controller
 
     /**
      * Delete a user's bank account from the bank accounts table only if the balance is 0.00
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete(Request $request)
+    public function delete(Request $request): RedirectResponse
     {
         $request->validateWithBag('bankAccountDeletion', [
             'password' => ['required', 'current-password'],
