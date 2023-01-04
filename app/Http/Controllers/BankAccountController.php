@@ -30,12 +30,13 @@ class BankAccountController extends Controller
 
         // TODO: modify database schema to include a unique constraint on the account_number column and rename account_number to number
 
-        BankAccount::create([
+        $newAccount = (new BankAccount)->fill([
             'name' => $request->name ?? 'New account',
             'account_number' => $accountNumber,
             'currency' => $request->currency,
-            'user_id' => $request->user()->id,
         ]);
+        $newAccount->user()->associate($request->user());
+        $newAccount->save();
 
         return Redirect::route('accounts.show')->with('status', 'account-created');
     }
