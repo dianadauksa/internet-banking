@@ -12,10 +12,10 @@ class AccountController extends Controller
     /**
      * Display all user's bank accounts
      */
-    public function show(): View
+    public function index(): View
     {
         $bankAccounts = auth()->user()->accounts()->get();
-        return view('accounts.show', ['bankAccounts' => $bankAccounts]);
+        return view('accounts.showAll', ['bankAccounts' => $bankAccounts]);
     }
 
     /**
@@ -29,7 +29,7 @@ class AccountController extends Controller
             $number = $prefix . $suffix;
         } while (Account::where('number', $number)->exists());
 
-        // TODO: modify database schema to include a unique constraint on the account_number column and rename account_number to number
+        // TODO: modify database schema to include a unique constraint on the account_number column
 
         $newAccount = (new Account)->fill([
             'name' => $request->name ?? 'New account',

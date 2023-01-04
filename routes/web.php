@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/accounts', [AccountController::class, 'show'])->name('accounts.show');
+    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.showAll');
     Route::post('/accounts', [AccountController::class, 'add'])->name('accounts.add');
     Route::delete('/accounts', [AccountController::class, 'delete'])->name('accounts.delete');
 });
