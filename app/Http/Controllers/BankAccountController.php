@@ -34,8 +34,9 @@ class BankAccountController extends Controller
             'name' => $request->name ?? 'New account',
             'account_number' => $accountNumber,
             'currency' => $request->currency,
+            'balance' => 0.00,
         ]);
-        $newAccount->user()->associate($request->user());
+        $newAccount->user()->associate(auth()->user());
         $newAccount->save();
 
         return Redirect::route('accounts.show')->with('status', 'account-created');
@@ -50,11 +51,9 @@ class BankAccountController extends Controller
             'password' => ['required', 'current-password'],
         ]);
 
-        $bankAccount = BankAccount::where('account_number', $request->account_number)
-            ->where('user_id', $request->user()->id)
-            ->first();
+        $bankAccount = auth()->user()->bankAccounts()->where('account_number', $request->account_number)->first();
 
-        if ($bankAccount->balance !== 0.00) {
+        if ($bankAccount->balance !== "0.00") {
             return Redirect::route('accounts.show')->with('status', 'cannot-delete-account-balance');
         } elseif ( $bankAccount->name === 'MAIN') {
             return Redirect::route('accounts.show')->with('status', 'cannot-delete-account-main');
