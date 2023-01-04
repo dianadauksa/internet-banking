@@ -3,36 +3,29 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\BankAccount;
+use App\Models\{User, BankAccount};
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\{RedirectResponse, Request};
+use Illuminate\Support\Facades\{Auth, Hash};
 use Illuminate\Validation\Rules;
+use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
-     *
-     * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(): View
     {
         return view('auth.register');
     }
 
     /**
      * Handle an incoming registration request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'firstName' => ['required', 'string', 'max:255'],
@@ -41,6 +34,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // TODO: add a unique constraint on the user_number column
         do {
             $userNumber = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
         } while (User::where('user_number', $userNumber)->exists());
@@ -69,8 +63,6 @@ class RegisteredUserController extends Controller
         $bankAccount = new BankAccount([
             'name' => 'MAIN',
             'account_number' => $accountNumber,
-            'currency' => 'EUR',
-            'balance' => 0.00,
             'user_id' => $user->id,
         ]);
         $bankAccount->save();

@@ -34,7 +34,6 @@ class BankAccountController extends Controller
             'name' => $request->name ?? 'New account',
             'account_number' => $accountNumber,
             'currency' => $request->currency ?? 'EUR',
-            'balance' => 0.00,
             'user_id' => $request->user()->id,
         ]);
         $bankAccount->save();
