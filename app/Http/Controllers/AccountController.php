@@ -32,6 +32,9 @@ class AccountController extends Controller
         if ($account->user_id !== Auth::user()->id) {
             return abort('403');
         }
+        if ($account->name === 'MAIN') {
+            return Redirect::back()->withErrors(['main-account' => 'You cannot change the name of MAIN account']);
+        }
         $account->update($request->only('name'));
         return Redirect::route('accounts.show', $account)->with('status', 'name-updated');
     }

@@ -11,6 +11,7 @@
             <x-input-label for="name" :value="__('New name')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $account->name)"
                           required autofocus autocomplete="name"/>
+            <x-input-error :messages="$errors->get('main-account')" class="mt-2"/>
         </div>
 
         <div class="flex items-center gap-4">
