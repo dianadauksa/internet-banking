@@ -60,12 +60,11 @@ class RegisteredUserController extends Controller
             $accountNumber = $prefix . $suffix;
         } while (BankAccount::where('account_number', $accountNumber)->exists());
 
-        $bankAccount = new BankAccount([
+        BankAccount::create([
             'name' => 'MAIN',
             'account_number' => $accountNumber,
             'user_id' => $user->id,
         ]);
-        $bankAccount->save();
 
         event(new Registered($user));
         Auth::login($user);
