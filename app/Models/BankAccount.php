@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class BankAccount extends Model
 {
     protected $fillable = [
-        'name', 'account_number', 'currency', 'balance', 'user_id',
+        'name', 'account_number', 'currency', 'balance',
     ];
 
     public function user(): BelongsTo
