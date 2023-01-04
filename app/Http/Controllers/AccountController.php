@@ -69,13 +69,13 @@ class AccountController extends Controller
      */
     public function delete(Account $account, Request $request): RedirectResponse
     {
-        $request->validateWithBag('bankAccountDeletion', [
-            'password' => ['required', 'current-password'],
-        ]);
-
         if ($account->user_id !== Auth::user()->id) {
             return abort('403');
         }
+
+        $request->validateWithBag('bankAccountDeletion', [
+            'password' => ['required', 'current-password'],
+        ]);
 
         if ($account->balance !== "0.00") {
             return Redirect::route('accounts.show', $account)->with('status', 'cannot-delete-account-balance');
