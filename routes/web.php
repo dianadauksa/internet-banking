@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified', 'bankAccounts'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/transfers', function () {
     return view('transfers');
@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('bankAccounts')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/accounts', [BankAccountController::class, 'show'])->name('accounts.show');
     Route::post('/accounts', [BankAccountController::class, 'add'])->name('accounts.add');
     Route::delete('/accounts', [BankAccountController::class, 'delete'])->name('accounts.delete');

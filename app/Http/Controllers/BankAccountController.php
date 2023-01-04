@@ -14,7 +14,8 @@ class BankAccountController extends Controller
      */
     public function show(): View
     {
-        return view('accounts.show');
+        $bankAccounts = auth()->user()->bankAccounts()->get();
+        return view('accounts.show', ['bankAccounts' => $bankAccounts]);
     }
 
     /**
