@@ -30,7 +30,7 @@ class AccountController extends Controller
     /**
      * Add a new bank account to the bank accounts table and link it to the user
      */
-    public function add(Request $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         do {
             $prefix = 'LV77ORCL';

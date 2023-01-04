@@ -11,7 +11,6 @@
 
     <form method="post" action="{{ route('accounts.add') }}" class="mt-6 space-y-6">
         @csrf
-        @method('put')
 
         <div>
             <x-input-label for="name" :value="__('Account name')"/>
