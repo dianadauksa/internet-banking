@@ -9,25 +9,11 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('accounts.delete') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('accounts.delete', $account) }}" class="mt-6 space-y-6">
         @csrf
         @method('delete')
 
         <div>
-            <x-input-label for="number" :value="__('Choose account to delete')"/>
-            <select
-                id="number"
-                name="number"
-                class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
-                required autofocus autocomplete="number">
-                @foreach ($bankAccounts as $bankAccount)
-                    @if ($bankAccount->name !== 'MAIN' and $bankAccount->balance == 0.00)
-                    <option value="{{ $bankAccount->number }}">{{ $bankAccount->name }}
-                        ({{ $bankAccount->number }})
-                    </option>
-                    @endif
-                @endforeach
-            </select>
             @if (session('status') === 'cannot-delete-account-balance')
                 <x-input-error :messages="'Cannot delete account with a balance greater than 0.00'" class="mt-2"/>
             @elseif (session('status') === 'cannot-delete-account-main')
@@ -51,15 +37,6 @@
             <x-danger-button class="flex items-center gap-4">
                 {{ __('Delete Account') }}
             </x-danger-button>
-            @if (session('status') === 'account-deleted')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 4000)"
-                    class="text-sm text-red-600"
-                >{{ __('Bank Account Deleted') }}</p>
-            @endif
         </div>
     </form>
 </section>

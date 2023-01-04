@@ -43,8 +43,9 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.showAll');
-    Route::post('/accounts', [AccountController::class, 'add'])->name('accounts.add');
-    Route::delete('/accounts', [AccountController::class, 'delete'])->name('accounts.delete');
+    Route::get('/accounts/{account}', [AccountController::class, 'show'])->name('accounts.show');
+    Route::put('/accounts', [AccountController::class, 'add'])->name('accounts.add');
+    Route::delete('/accounts/{account}/delete', [AccountController::class, 'delete'])->name('accounts.delete');
 });
 
 require __DIR__.'/auth.php';

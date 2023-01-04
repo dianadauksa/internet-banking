@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\{RedirectResponse, Request};
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -14,8 +15,16 @@ class AccountController extends Controller
      */
     public function index(): View
     {
-        $bankAccounts = auth()->user()->accounts()->get();
-        return view('accounts.showAll', ['bankAccounts' => $bankAccounts]);
+        $accounts = auth()->user()->accounts()->get();
+        return view('accounts.showAll', ['accounts' => $accounts]);
+    }
+
+    public function show(Account $account): View
+    {
+        if ($account->user_id !== Auth::user()->id) {
+            return abort('403');
+        }
+        return view('accounts.showSingle', ['account' => $account]);
     }
 
     /**
@@ -29,7 +38,7 @@ class AccountController extends Controller
             $number = $prefix . $suffix;
         } while (Account::where('number', $number)->exists());
 
-        // TODO: modify database schema to include a unique constraint on the account_number column
+        // TODO: modify database schema to include a unique constraint on the account number column
 
         $newAccount = (new Account)->fill([
             'name' => $request->name ?? 'New account',
@@ -40,28 +49,30 @@ class AccountController extends Controller
         $newAccount->user()->associate(auth()->user());
         $newAccount->save();
 
-        return Redirect::route('accounts.show')->with('status', 'account-created');
+        return Redirect::route('accounts.showAll')->with('status', 'account-created');
     }
 
     /**
      * Delete a user's bank account from the bank accounts table only if the balance is 0.00
      */
-    public function delete(Request $request): RedirectResponse
+    public function delete(Account $account, Request $request): RedirectResponse
     {
         $request->validateWithBag('bankAccountDeletion', [
             'password' => ['required', 'current-password'],
         ]);
 
-        $bankAccount = auth()->user()->accounts()->where('number', $request->number)->first();
-
-        if ($bankAccount->balance !== "0.00") {
-            return Redirect::route('accounts.show')->with('status', 'cannot-delete-account-balance');
-        } elseif ( $bankAccount->name === 'MAIN') {
-            return Redirect::route('accounts.show')->with('status', 'cannot-delete-account-main');
-        } else {
-            $bankAccount->delete();
+        if ($account->user_id !== Auth::user()->id) {
+            return abort('403');
         }
 
-        return Redirect::route('accounts.show')->with('status', 'account-deleted');
+        if ($account->balance !== "0.00") {
+            return Redirect::route('accounts.show', $account)->with('status', 'cannot-delete-account-balance');
+        } elseif ( $account->name === 'MAIN') {
+            return Redirect::route('accounts.show', $account)->with('status', 'cannot-delete-account-main');
+        } else {
+            $account->delete();
+        }
+
+        return Redirect::route('accounts.showAll')->with('status', 'account-deleted');
     }
 }
