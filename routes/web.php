@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransferController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +24,26 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/transfers', function () {
-    return view('transfers');
-})->middleware(['auth', 'verified'])->name('transfers');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts');
+    Route::get('/accounts/{account}', [AccountController::class, 'show'])->name('accounts.show');
+    Route::put('/accounts/{account}', [AccountController::class, 'update'])->name('accounts.update');
+    Route::post('/accounts', [AccountController::class, 'store'])->name('accounts.add');
+    Route::delete('/accounts/{account}/delete', [AccountController::class, 'delete'])->name('accounts.delete');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/transfers', [TransferController::class, 'index'])->name('transfers');
+    Route::get('/transfers/{account}', [TransferController::class, 'show'])->name('transfers.show');
+
+});
+
 
 Route::get('/crypto', function () {
     return view('crypto');
@@ -34,19 +52,5 @@ Route::get('/crypto', function () {
 Route::get('/statements', function () {
     return view('statements');
 })->middleware(['auth', 'verified'])->name('statements');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.showAll');
-    Route::get('/accounts/{account}', [AccountController::class, 'show'])->name('accounts.show');
-    Route::put('/accounts/{account}', [AccountController::class, 'update'])->name('accounts.update');
-    Route::post('/accounts', [AccountController::class, 'store'])->name('accounts.add');
-    Route::delete('/accounts/{account}/delete', [AccountController::class, 'delete'])->name('accounts.delete');
-});
 
 require __DIR__.'/auth.php';

@@ -85,6 +85,6 @@ class AccountController extends Controller
             $account->delete();
         }
 
-        return Redirect::route('accounts.showAll')->with('status', 'account-deleted');
+        return Redirect::route('accounts')->with('status', 'account-deleted');
     }
 }
