@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
         // TODO: add a unique constraint on the user_number column and rename to number
         do {
             $userNumber = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
-        } while (User::where('user_number', $userNumber)->exists());
+        } while (User::where('number', $userNumber)->exists());
 
         $codes = [];
         for ($i = 0; $i < 10; $i++) {
@@ -50,19 +50,19 @@ class RegisteredUserController extends Controller
             'lastName' => $request->lastName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'user_number' => $userNumber,
+            'number' => $userNumber,
             'security_codes' => $securityCodes,
         ]);
 
         do {
             $prefix = 'LV77ORCL';
             $suffix = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
-            $number = $prefix . $suffix;
-        } while (Account::where('number', $number)->exists());
+            $accountNumber = $prefix . $suffix;
+        } while (Account::where('number', $accountNumber)->exists());
 
         $account = (new Account)->fill([
             'name' => 'MAIN',
-            'number' => $number,
+            'number' => $accountNumber,
             'balance' => 0.00,
         ]);
         $account->user()->associate($user);
