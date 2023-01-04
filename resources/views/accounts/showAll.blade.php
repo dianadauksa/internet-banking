@@ -22,11 +22,11 @@
     @endif
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            @include('accounts.partials.bank-accounts-list')
+            @include('accounts.partials.all')
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
-                    @include('accounts.partials.create-account-form')
+                    @include('accounts.partials.create-form')
                 </div>
             </div>
         </div>

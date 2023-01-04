@@ -27,6 +27,15 @@ class AccountController extends Controller
         return view('accounts.showSingle', ['account' => $account]);
     }
 
+    public function update(Request $request, Account $account): RedirectResponse
+    {
+        if ($account->user_id !== Auth::user()->id) {
+            return abort('403');
+        }
+        $account->update($request->only('name'));
+        return Redirect::route('accounts.show', $account)->with('status', 'name-updated');
+    }
+
     /**
      * Add a new bank account to the bank accounts table and link it to the user
      */
