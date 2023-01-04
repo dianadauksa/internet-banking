@@ -48,8 +48,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function bankAccounts(): HasMany
+    public function accounts(): HasMany
     {
-        return $this->hasMany(BankAccount::class);
+        return $this->hasMany(Account::class);
     }
 }

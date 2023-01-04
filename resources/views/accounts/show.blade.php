@@ -12,7 +12,7 @@
                 @foreach ($bankAccounts as $bankAccount)
                 <div class="p-6 text-gray-900">
                         Account name: {{ $bankAccount->name }}
-                        Account number: {{ $bankAccount->account_number }}
+                        Account number: {{ $bankAccount->number }}
                         Currency: {{ $bankAccount->currency }}
                         Money available: {{ $bankAccount->balance }} {{ $bankAccount->currency }}
                 </div>

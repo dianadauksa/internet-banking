@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,9 +42,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/accounts', [BankAccountController::class, 'show'])->name('accounts.show');
-    Route::post('/accounts', [BankAccountController::class, 'add'])->name('accounts.add');
-    Route::delete('/accounts', [BankAccountController::class, 'delete'])->name('accounts.delete');
+    Route::get('/accounts', [AccountController::class, 'show'])->name('accounts.show');
+    Route::post('/accounts', [AccountController::class, 'add'])->name('accounts.add');
+    Route::delete('/accounts', [AccountController::class, 'delete'])->name('accounts.delete');
 });
 
 require __DIR__.'/auth.php';

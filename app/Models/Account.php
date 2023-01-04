@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class BankAccount extends Model
+class Account extends Model
 {
     protected $fillable = [
-        'name', 'account_number', 'currency', 'balance',
+        'name', 'number', 'currency', 'balance',
     ];
 
     public function user(): BelongsTo

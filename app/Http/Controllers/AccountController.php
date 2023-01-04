@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BankAccount;
+use App\Models\Account;
 use Illuminate\Http\{RedirectResponse, Request};
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-class BankAccountController extends Controller
+class AccountController extends Controller
 {
     /**
      * Display all user's bank accounts
      */
     public function show(): View
     {
-        $bankAccounts = auth()->user()->bankAccounts()->get();
+        $bankAccounts = auth()->user()->accounts()->get();
         return view('accounts.show', ['bankAccounts' => $bankAccounts]);
     }
 
@@ -26,14 +26,14 @@ class BankAccountController extends Controller
         do {
             $prefix = 'LV77ORCL';
             $suffix = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
-            $accountNumber = $prefix . $suffix;
-        } while (BankAccount::where('account_number', $accountNumber)->exists());
+            $number = $prefix . $suffix;
+        } while (Account::where('number', $number)->exists());
 
         // TODO: modify database schema to include a unique constraint on the account_number column and rename account_number to number
 
-        $newAccount = (new BankAccount)->fill([
+        $newAccount = (new Account)->fill([
             'name' => $request->name ?? 'New account',
-            'account_number' => $accountNumber,
+            'number' => $number,
             'currency' => $request->currency,
             'balance' => 0.00,
         ]);
@@ -52,7 +52,7 @@ class BankAccountController extends Controller
             'password' => ['required', 'current-password'],
         ]);
 
-        $bankAccount = auth()->user()->bankAccounts()->where('account_number', $request->account_number)->first();
+        $bankAccount = auth()->user()->accounts()->where('number', $request->number)->first();
 
         if ($bankAccount->balance !== "0.00") {
             return Redirect::route('accounts.show')->with('status', 'cannot-delete-account-balance');

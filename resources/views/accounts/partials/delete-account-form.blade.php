@@ -14,16 +14,16 @@
         @method('delete')
 
         <div>
-            <x-input-label for="account_number" :value="__('Choose account to delete')"/>
+            <x-input-label for="number" :value="__('Choose account to delete')"/>
             <select
-                id="account_number"
-                name="account_number"
+                id="number"
+                name="number"
                 class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
-                required autofocus autocomplete="account_number">
+                required autofocus autocomplete="number">
                 @foreach ($bankAccounts as $bankAccount)
                     @if ($bankAccount->name !== 'MAIN' and $bankAccount->balance == 0.00)
-                    <option value="{{ $bankAccount->account_number }}">{{ $bankAccount->name }}
-                        ({{ $bankAccount->account_number }})
+                    <option value="{{ $bankAccount->number }}">{{ $bankAccount->name }}
+                        ({{ $bankAccount->number }})
                     </option>
                     @endif
                 @endforeach

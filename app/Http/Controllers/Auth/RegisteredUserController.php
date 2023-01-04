@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\{User, BankAccount};
+use App\Models\{User, Account};
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\{RedirectResponse, Request};
@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // TODO: add a unique constraint on the user_number column
+        // TODO: add a unique constraint on the user_number column and rename to number
         do {
             $userNumber = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
         } while (User::where('user_number', $userNumber)->exists());
@@ -57,12 +57,12 @@ class RegisteredUserController extends Controller
         do {
             $prefix = 'LV77ORCL';
             $suffix = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
-            $accountNumber = $prefix . $suffix;
-        } while (BankAccount::where('account_number', $accountNumber)->exists());
+            $number = $prefix . $suffix;
+        } while (Account::where('number', $number)->exists());
 
-        $account = (new BankAccount)->fill([
+        $account = (new Account)->fill([
             'name' => 'MAIN',
-            'account_number' => $accountNumber,
+            'number' => $number,
             'balance' => 0.00,
         ]);
         $account->user()->associate($user);
