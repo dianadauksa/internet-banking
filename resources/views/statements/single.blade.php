@@ -39,7 +39,7 @@
                     <ul>
                         @foreach ($transactions as $transaction)
                             @if ($transaction->type == 'OUTGOING' and $transaction->account_to_id !== $account->id)
-                                <li class="flex items center space-x-4 py-1">
+                                <li class="flex items center space-x-4 py-1 border-b border-gray-300">
                                     <div class="flex-1">
                                         <div class="text-gray-700 font-bold">
                                             @if ($transaction->recipientAccount->user == $transaction->senderAccount->user)
@@ -57,7 +57,7 @@
                                     </div>
                                 </li>
                             @elseif ($transaction->type == 'INCOMING' and $transaction->account_from_id !== $account->id)
-                                <li class="flex items center space-x-4 py-1">
+                                <li class="flex items center space-x-4 py-1 border-b border-gray-300">
                                     <div class="flex-1">
                                         <div class="text-gray-700 font-bold">
                                             @if ($transaction->senderAccount->user == $transaction->recipientAccount->user)
