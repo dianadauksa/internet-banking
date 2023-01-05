@@ -12,8 +12,8 @@ class Transaction extends Model
         'account_from_id', 'account_to_id', 'amount', 'currency', 'type'
     ];
 
-    public function sender(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Account::class, 'sender_id');
+        return $this->belongsTo(User::class);
     }
 }

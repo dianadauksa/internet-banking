@@ -90,6 +90,7 @@ class TransferController extends Controller
             'currency' => $accountFrom->currency,
             'type' => 'OUTGOING',
         ]);
+        $transactionOut->user()->associate(auth()->user());
         $transactionOut->save();
 
         $transactionIn = (new Transaction)->fill([
@@ -99,6 +100,7 @@ class TransferController extends Controller
             'currency' => $accountTo->currency,
             'type' => 'INCOMING',
         ]);
+        $transactionIn->user()->associate($accountTo->user);
         $transactionIn->save();
     }
 }
