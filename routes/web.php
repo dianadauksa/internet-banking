@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/transfers', [TransferController::class, 'index'])->name('transfers');
-    Route::get('/transfers/{account}', [TransferController::class, 'show'])->name('transfers.show');
+    Route::post('/transfers', [TransferController::class, 'makeTransfer'])->name('transfers.make');
 
 });
 
