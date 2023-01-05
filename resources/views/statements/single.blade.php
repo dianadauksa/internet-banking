@@ -42,10 +42,10 @@
                                 <li class="flex items center space-x-4 py-1 border-b border-gray-300">
                                     <div class="flex-1">
                                         <div class="text-gray-700 font-bold">
-                                            @if ($transaction->recipientAccount->user == $transaction->senderAccount->user)
-                                                To your {{ $transaction->recipientAccount->name }} account <small class="ml-2">({{ $transaction->recipientAccount->number }})</small>
+                                            @if ($transaction->getAccountTo->user == $transaction->getAccountFrom->user)
+                                                To your {{ $transaction->getAccountTo->name }} account <small class="ml-2">({{ $transaction->getAccountTo->number }})</small>
                                             @else
-                                                To {{ $transaction->recipientAccount->user->getFullName() }} <small class="ml-2">({{ $transaction->recipientAccount->number }})</small>
+                                                To {{ $transaction->getAccountTo->user->getFullName() }} <small class="ml-2">({{ $transaction->getAccountTo->number }})</small>
                                             @endif
                                         </div>
                                         <div class="text-gray-500 text-sm">
@@ -60,10 +60,10 @@
                                 <li class="flex items center space-x-4 py-1 border-b border-gray-300">
                                     <div class="flex-1">
                                         <div class="text-gray-700 font-bold">
-                                            @if ($transaction->senderAccount->user == $transaction->recipientAccount->user)
-                                                From your {{ $transaction->senderAccount->name }} account <small class="ml-2">({{ $transaction->senderAccount->number }})</small>
+                                            @if ($transaction->getAccountFrom->user == $transaction->getAccountTo->user)
+                                                From your {{ $transaction->getAccountFrom->name }} account <small class="ml-2">({{ $transaction->getAccountFrom->number }})</small>
                                             @else
-                                            From {{ $transaction->senderAccount->user->getFullName() }} <small class="ml-2">({{ $transaction->senderAccount->number }})</small>
+                                            From {{ $transaction->getAccountFrom->user->getFullName() }} <small class="ml-2">({{ $transaction->getAccountFrom->number }})</small>
                                             @endif
                                         </div>
                                         <div class="text-gray-500 text-sm">
