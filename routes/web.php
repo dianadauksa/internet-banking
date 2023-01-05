@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StatementController;
 use App\Http\Controllers\TransferController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,7 +45,6 @@ Route::middleware('auth')->group(function () {
 
 });
 
-
 Route::get('/crypto', function () {
     return view('crypto');
 })->middleware(['auth', 'verified'])->name('crypto');
@@ -52,5 +52,11 @@ Route::get('/crypto', function () {
 Route::get('/statements', function () {
     return view('statements');
 })->middleware(['auth', 'verified'])->name('statements');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/statements', [StatementController::class, 'index'])->name('statements');
+    Route::get('/statements/{account}', [StatementController::class, 'show'])->name('statements.show');
+    Route::post('/statements', [StatementController::class, 'filter'])->name('statements.filter');
+});
 
 require __DIR__.'/auth.php';

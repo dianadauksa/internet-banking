@@ -1,4 +1,11 @@
 <x-app-layout>
+    <style>
+        .account-name:hover,
+        .account-name:active {
+            color: #6b7280;
+            text-decoration: none;
+        }
+    </style>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Manage Your Accounts') }}
