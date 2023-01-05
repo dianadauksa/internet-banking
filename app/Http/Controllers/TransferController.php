@@ -13,7 +13,8 @@ class TransferController extends Controller
     public function index(): View
     {
         $accounts = auth()->user()->accounts()->get();
-        return view('transfers.index', ['accounts' => $accounts]);
+        $securityCodeNr = rand(0, 9);
+        return view('transfers.index', ['accounts' => $accounts, 'securityCodeNr' => $securityCodeNr]);
     }
 
     public function makeTransfer(Request $request): RedirectResponse

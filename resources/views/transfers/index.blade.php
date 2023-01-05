@@ -92,7 +92,17 @@
                                                         class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-1/2 text-center"
                                                         placeholder="Enter password to confirm"
                                                     />
-                                                    <x-input-error :messages="$errors->transfer->get('password')" class="mt-2"/>
+                                                </div>
+
+                                                <div id="security-code-field">
+                                                    <x-input-label class="mt-4 text-center" for="security_code" value="Security Code No. {{$securityCodeNr}}"/>
+                                                    <x-text-input
+                                                        id="security_code"
+                                                        name="security_code"
+                                                        type="text"
+                                                        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-1/2 text-center"
+                                                        placeholder="Enter code from code card"
+                                                    />
                                                 </div>
                                             <x-primary-button class="mt-6">{{ __('Transfer') }}</x-primary-button>
                                         </div>
