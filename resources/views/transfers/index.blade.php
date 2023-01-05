@@ -11,6 +11,7 @@
             color: #6b7280;
             text-decoration: none;
         }
+
         .alert {
             color: red;
         }
@@ -30,6 +31,17 @@
                                     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                                         {{ __('Transfer Request') }}
                                     </h2>
+                                </div>
+                                <div class="flex justify-center mb-2">
+                                    @if (session('status'))
+                                        <p
+                                            x-data="{ show: true }"
+                                            x-show="show"
+                                            x-transition
+                                            x-init="setTimeout(() => show = false, 2000)"
+                                            class="text-sm text-green-600"
+                                        >{{ session('status') }}</p>
+                                    @endif
                                 </div>
 
                                 <div class="flex justify-center">
@@ -51,32 +63,27 @@
                                                     class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                                                     required autofocus autocomplete="account_from">
                                                 @foreach ($accounts as $account)
-                                                    <option value="{{ $account->id }}">{{$account->currency}} {{ $account->balance }} {{ $account->name }} ({{ $account->number }})</option>
+                                                    <option
+                                                        value="{{ $account->id }}">{{$account->currency}} {{ $account->balance }} {{ $account->name }}
+                                                        ({{ $account->number }})
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             <x-input-error class="mt-2" :messages="$errors->get('insufficient-funds')"/>
 
-                                            <x-input-label class="mt-3" for="account_to" :value="__('Enter recipient account')"/>
-                                            <x-text-input id="account_to" name="account_to" type="text" class="mt-1 block w-full" placeholder="e.g. LV77ORCL000000000"
+                                            <x-input-label class="mt-3" for="account_to"
+                                                           :value="__('Enter recipient account')"/>
+                                            <x-text-input id="account_to" name="account_to" type="text"
+                                                          class="mt-1 block w-full" placeholder="e.g. LV77ORCL000000000"
                                                           required autofocus autocomplete="account_to"/>
                                             <x-input-error class="mt-2" :messages="$errors->get('account-to')"/>
 
                                             <x-input-label class="mt-3" for="amount" :value="__('Enter amount')"/>
-                                            <x-text-input id="amount" name="amount" type="text" class="mt-1 block w-full" placeholder="0.00"
+                                            <x-text-input id="amount" name="amount" type="text"
+                                                          class="mt-1 block w-1/2 text-center" placeholder="0.00"
                                                           required autofocus autocomplete="amount"/>
 
                                             <x-primary-button class="mt-2">{{ __('Transfer') }}</x-primary-button>
-
-                                            @if (session('status') === 'transfer-successful')
-                                                <p
-                                                    x-data="{ show: true }"
-                                                    x-show="show"
-                                                    x-transition
-                                                    x-init="setTimeout(() => show = false, 2000)"
-                                                    class="text-sm text-gray-600 mt-2"
-                                                >{{ __('Transfer successful') }}</p>
-                                            @endif
-
                                         </div>
                                     </form>
                                 </div>

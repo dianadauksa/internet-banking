@@ -40,7 +40,8 @@ class TransferController extends Controller
 
         $this->recordTransactions($senderAccount, $receiverAccount, $request->amount, $exchangedAmount);
 
-        return Redirect::back()->with('status', 'transfer-successful');
+        return Redirect::back()
+            ->with('status', "You transferred $request->amount $senderAccount->currency to " .$receiverAccount->user->firstName);
     }
 
     private function getExchangeRate(Account $accountFrom, Account $accountTo): float
