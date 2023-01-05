@@ -70,7 +70,7 @@
                                             {{ $transaction->created_at->format('d/m/Y H:i') }}
                                         </div>
                                     </div>
-                                    <div class="text-green-600 font-bold">
+                                    <div class="text-gray-700 font-bold">
                                         +{{ $transaction->amount }} {{ $account->currency }}
                                     </div>
                                 </li>
