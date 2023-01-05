@@ -25,6 +25,7 @@ class TransferController extends Controller
             'account_from' => 'required|exists:accounts,id',
             'account_to' => 'required|exists:accounts,number',
             'amount' => 'required|numeric|min:0.01|max:' . $senderAccount->balance,
+            'password' => 'required|current_password',
         ];
         $this->validate($request, $rules);
 

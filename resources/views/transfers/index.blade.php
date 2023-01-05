@@ -71,19 +71,30 @@
                                             </select>
                                             <x-input-error class="mt-2" :messages="$errors->get('insufficient-funds')"/>
 
-                                            <x-input-label class="mt-3" for="account_to"
-                                                           :value="__('Enter recipient account')"/>
+                                            <x-input-label class="mt-4" for="account_to"
+                                                           :value="__('Recipient account')"/>
                                             <x-text-input id="account_to" name="account_to" type="text"
-                                                          class="mt-1 block w-full" placeholder="e.g. LV77ORCL000000000"
+                                                          class="mt-1 block w-full text-center" placeholder="Enter recipient's account e.g. LV77ORCL000000000"
                                                           required autofocus autocomplete="account_to"/>
                                             <x-input-error class="mt-2" :messages="$errors->get('account-to')"/>
 
-                                            <x-input-label class="mt-3" for="amount" :value="__('Enter amount')"/>
+                                            <x-input-label class="mt-4" for="amount" :value="__('Amount')"/>
                                             <x-text-input id="amount" name="amount" type="text"
                                                           class="mt-1 block w-1/2 text-center" placeholder="0.00"
                                                           required autofocus autocomplete="amount"/>
 
-                                            <x-primary-button class="mt-2">{{ __('Transfer') }}</x-primary-button>
+                                                <div id="password-field">
+                                                    <x-input-label class="mt-4 text-center" for="password" :value="__('Password')"/>
+                                                    <x-text-input
+                                                        id="password"
+                                                        name="password"
+                                                        type="password"
+                                                        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-1/2 text-center"
+                                                        placeholder="Enter password to confirm"
+                                                    />
+                                                    <x-input-error :messages="$errors->transfer->get('password')" class="mt-2"/>
+                                                </div>
+                                            <x-primary-button class="mt-6">{{ __('Transfer') }}</x-primary-button>
                                         </div>
                                     </form>
                                 </div>

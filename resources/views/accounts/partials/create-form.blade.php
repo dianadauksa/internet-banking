@@ -15,7 +15,7 @@
         <div>
             <x-input-label for="name" :value="__('Account name')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" placeholder="e.g. Savings"
-                          required autofocus autocomplete="name"/>
+                          required autofocus autocomplete="name"></x-text-input>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
@@ -27,7 +27,7 @@
                 <option value="EUR">EUR</option>
                 <option value="USD">USD</option>
                 <option value="GBP">GBP</option>
-                <option value="UAH">UAH</option>
+                <option value="PHP">PHP</option>
                 <option value="AUD">AUD</option>
                 <option value="NOK">NOK</option>
             </select>
