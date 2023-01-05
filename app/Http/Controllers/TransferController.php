@@ -34,8 +34,8 @@ class TransferController extends Controller
 
         $exchangedAmount = $request->amount * $this->getExchangeRate($senderAccount, $receiverAccount);
         $senderAccount->balance -= $request->amount;
-        $senderAccount->save();
         $receiverAccount->balance += $exchangedAmount;
+        $senderAccount->save();
         $receiverAccount->save();
 
         $this->recordTransactions($senderAccount, $receiverAccount, $request->amount, $exchangedAmount);
@@ -60,9 +60,7 @@ class TransferController extends Controller
         $json = json_encode($xml);
         $array = json_decode($json, TRUE);
 
-        if (Cache::has('exchange_rates')) {
-            $exchangeRates = Cache::get('exchange_rates');
-        } else {
+        if (!Cache::has('exchange_rates')) {
             $currencyArray = [];
             foreach ($array['Currencies']['Currency'] as $currency) {
                 $currencyArray[$currency['ID']] = $currency['Rate'];
@@ -70,8 +68,8 @@ class TransferController extends Controller
             $array['Currencies']['Currency'] = $currencyArray;
             Cache::put('exchange_rates', $currencyArray, 5); // stored for 5 minutes
 
-            $exchangeRates = Cache::get('exchange_rates');
         }
+        $exchangeRates = Cache::get('exchange_rates');
 
         if ($currencyFrom === 'EUR') {
            return $exchangeRates[$currencyTo];
