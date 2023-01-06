@@ -13,15 +13,17 @@ class TransferController extends Controller
     public function index(): View
     {
         $accounts = auth()->user()->accounts()->get();
-        $securityCodeNr = rand(0, 9);
-        return view('transfers.index', ['accounts' => $accounts, 'securityCodeNr' => $securityCodeNr]);
+        $codes = auth()->user()->getSecurityCodes();
+        $selectedIndex = array_rand($codes);
+
+        return view('transfers.index', ['accounts' => $accounts, 'selectedIndex' => $selectedIndex]);
     }
 
-    public function makeTransfer(Request $request): RedirectResponse
+    public function makeTransfer(Request $request, int $selectedIndex): RedirectResponse
     {
         $senderAccount = Account::where('id', $request->account_from)->firstOrFail();
         $receiverAccount = Account::where('number', $request->account_to)->firstOrFail();
-
+        //$selectedCode = $codes[$selectedIndex];
         $rules = [
             'account_from' => 'required|exists:accounts,id',
             'account_to' => 'required|exists:accounts,number',

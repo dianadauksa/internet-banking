@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/transfers', [TransferController::class, 'index'])->name('transfers');
-    Route::post('/transfers', [TransferController::class, 'makeTransfer'])->name('transfers.make');
+    Route::post('/transfers/{selectedIndex}', [TransferController::class, 'makeTransfer'])->name('transfers.make');
 
 });
 

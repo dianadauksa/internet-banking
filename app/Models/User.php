@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class, 'user_id');
     }
 
+    public function getSecurityCodes(): array
+    {
+        return json_decode($this->security_codes, true);
+    }
+
     public function getFullName(): string
     {
         return $this->firstName . ' ' . $this->lastName;
