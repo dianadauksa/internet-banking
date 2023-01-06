@@ -23,12 +23,16 @@ class TransferController extends Controller
     {
         $senderAccount = Account::where('id', $request->account_from)->firstOrFail();
         $receiverAccount = Account::where('number', $request->account_to)->firstOrFail();
-        //$selectedCode = $codes[$selectedIndex];
+        $codes = auth()->user()->getSecurityCodes();
+        $selectedCode = $codes[$selectedIndex];
+        request()->merge(['selected_code' => $selectedCode]);
+
         $rules = [
             'account_from' => 'required|exists:accounts,id',
             'account_to' => 'required|exists:accounts,number',
             'amount' => 'required|numeric|min:0.01|max:' . $senderAccount->balance,
             'password' => 'required|current_password',
+            'security_code' => 'required|same:selected_code',
         ];
         $this->validate($request, $rules);
 
@@ -52,12 +56,12 @@ class TransferController extends Controller
     {
         $exchangeRate = 1;
         if ($accountFrom->currency !== $accountTo->currency) {
-            $exchangeRate = $this->getExchangeRateFromApi($accountFrom->currency, $accountTo->currency);
+            $exchangeRate = $this->getExchangeRatesFromApi($accountFrom->currency, $accountTo->currency);
         }
         return $exchangeRate;
     }
 
-    private function getExchangeRateFromApi(string $currencyFrom, string $currencyTo): float
+    private function getExchangeRatesFromApi(string $currencyFrom, string $currencyTo): float
     {
         $url = "https://www.bank.lv/vk/ecb.xml";
         $xml = simplexml_load_file($url);
