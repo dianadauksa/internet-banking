@@ -15,7 +15,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Update name') }}</x-primary-button>
+            <x-primary-button>{{ __('Update') }}</x-primary-button>
 
             @if (session('status') === 'name-updated')
                 <p
