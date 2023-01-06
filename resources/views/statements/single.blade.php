@@ -34,6 +34,22 @@
                 </div>
             </section>
 
+            <section>
+                <form method="post" action="{{ route('statements.filter') }}">
+                    @csrf
+
+                    <div class="flex items-center space-x-4 py-2 border-b border-gray-300">
+                        <input type="text" name="account_number" placeholder="Search by account number" class="form-input w-52 rounded-md shadow-sm mr-2" value="{{ request('account_number') }}">
+                        <input type="text" name="sender" placeholder="Search by sender name" class="form-input w-52 rounded-md shadow-sm mr-2" value="{{ request('sender') }}">
+                        <input type="text" name="recipient" placeholder="Search by recipient name" class="form-input w-52 rounded-md shadow-sm mr-2" value="{{ request('recipient') }}">
+                        From <input type="date" name="from" class="form-input w-44 rounded-md shadow-sm mr-2 ml-1" value="{{ request('from') }}">
+                        To <input type="date" name="to" class="form-input w-44 rounded-md shadow-sm mr-1 ml-1" value="{{ request('to') }}">
+                        <x-secondary-button class="ml-4">Search Transaction</x-secondary-button>
+                    </div>
+                </form>
+
+            </section>
+
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-2xl">
                     <ul>

@@ -16,4 +16,9 @@ class Account extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'account_from_id')->orWhere('account_to_id', $this->id);
+    }
 }
