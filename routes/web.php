@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/statements', [StatementController::class, 'index'])->name('statements');
     Route::get('/statements/{account}', [StatementController::class, 'show'])->name('statements.show');
     Route::post('/statements/{account}', [StatementController::class, 'filter'])->name('statements.filter');
+    Route::get('/statements/{account}/{transaction}', [StatementController::class, 'showSingle'])->name('statements.singleTransaction');
 });
 
 require __DIR__.'/auth.php';
