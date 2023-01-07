@@ -11,7 +11,7 @@ class StatementController extends Controller
     public function index(): View
     {
         $accounts = auth()->user()->accounts()->get();
-        return view('statements.all', ['accounts' => $accounts]);
+        return view('statements.allAccounts', ['accounts' => $accounts]);
     }
 
     public function show(Account $account): View
@@ -22,7 +22,7 @@ class StatementController extends Controller
 
         $transactions = $account->transactions()->get();
         $transactions = $transactions->sortByDesc('created_at');
-        return view('statements.single', ['transactions' => $transactions, 'account' => $account]);
+        return view('statements.singleAccount', ['transactions' => $transactions, 'account' => $account]);
     }
 
     public function filter(Request $request, Account $account): View
@@ -67,6 +67,6 @@ class StatementController extends Controller
         }
 
         $transactions = $transactions->sortByDesc('created_at');
-        return view('statements.single', ['transactions' => $transactions, 'account' => $account]);
+        return view('statements.singleAccount', ['transactions' => $transactions, 'account' => $account]);
     }
 }

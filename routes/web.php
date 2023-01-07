@@ -41,8 +41,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/transfers', [TransferController::class, 'index'])->name('transfers');
-    Route::post('/transfers/{selectedIndex}', [TransferController::class, 'makeTransfer'])->name('transfers.make');
-
+    Route::post('/transfers/{selectedIndex}', [TransferController::class, 'makeTransfer'])
+        ->name('transfers.make');
 });
 
 Route::get('/crypto', function () {
@@ -53,7 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/statements', [StatementController::class, 'index'])->name('statements');
     Route::get('/statements/{account}', [StatementController::class, 'show'])->name('statements.show');
     Route::post('/statements/{account}', [StatementController::class, 'filter'])->name('statements.filter');
-    Route::get('/statements/{account}/{transaction}', [StatementController::class, 'showSingle'])->name('statements.singleTransaction');
+    Route::get('/statements/{account}/{transaction}', [StatementController::class, 'showSingle'])
+        ->name('statements.transaction');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
