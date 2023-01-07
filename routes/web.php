@@ -49,14 +49,10 @@ Route::get('/crypto', function () {
     return view('crypto');
 })->middleware(['auth', 'verified'])->name('crypto');
 
-Route::get('/statements', function () {
-    return view('statements');
-})->middleware(['auth', 'verified'])->name('statements');
-
 Route::middleware('auth')->group(function () {
     Route::get('/statements', [StatementController::class, 'index'])->name('statements');
     Route::get('/statements/{account}', [StatementController::class, 'show'])->name('statements.show');
-    Route::post('/statements', [StatementController::class, 'filter'])->name('statements.filter');
+    Route::post('/statements/{account}', [StatementController::class, 'filter'])->name('statements.filter');
 });
 
 require __DIR__.'/auth.php';

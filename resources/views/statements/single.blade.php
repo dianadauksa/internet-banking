@@ -19,7 +19,7 @@
                 <div class="bg-white overflow-hidden shadow sm:rounded-lg">
 
                     <div class="p-6 border-b border-gray-200">
-                        <a href="{{ route('accounts.show', $account) }}"
+                        <a href="{{ route('statements.show', $account) }}"
                            class="block font-bold text-xl mb-2 account-name">
                             {{ $account->name }}
                         </a>
@@ -35,7 +35,7 @@
             </section>
 
             <section>
-                <form method="post" action="{{ route('statements.filter') }}">
+                <form method="post" action="{{ route('statements.filter', $account) }}">
                     @csrf
 
                     <div class="flex items-center space-x-4 py-2 border-b border-gray-300">
@@ -44,7 +44,7 @@
                         <input type="text" name="recipient" placeholder="Search by recipient name" class="form-input w-52 rounded-md shadow-sm mr-2" value="{{ request('recipient') }}">
                         From <input type="date" name="from" class="form-input w-44 rounded-md shadow-sm mr-2 ml-1" value="{{ request('from') }}">
                         To <input type="date" name="to" class="form-input w-44 rounded-md shadow-sm mr-1 ml-1" value="{{ request('to') }}">
-                        <x-secondary-button class="ml-4">Search Transaction</x-secondary-button>
+                        <x-primary-button class="ml-2">Search transactions</x-primary-button>
                     </div>
                 </form>
 
