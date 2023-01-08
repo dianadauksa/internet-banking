@@ -6,12 +6,6 @@
     </x-slot>
 
     <style>
-        .account-name:hover,
-        .account-name:active {
-            color: #6b7280;
-            text-decoration: none;
-        }
-
         .alert {
             color: red;
         }

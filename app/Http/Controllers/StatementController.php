@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -19,10 +20,17 @@ class StatementController extends Controller
         if ($account->user_id !== auth()->user()->id) {
             return abort('403');
         }
-
         $transactions = $account->transactions()->get();
         $transactions = $transactions->sortByDesc('created_at');
         return view('statements.singleAccount', ['transactions' => $transactions, 'account' => $account]);
+    }
+
+    public function showSingle(Transaction $transaction): View
+    {
+        if ($transaction->user->id !== auth()->user()->id) {
+            return abort('403');
+        }
+        return view('statements.singleTransaction', ['transaction' => $transaction]);
     }
 
     public function filter(Request $request, Account $account): View
