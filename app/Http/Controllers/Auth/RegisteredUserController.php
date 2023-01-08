@@ -34,7 +34,6 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // TODO: add a unique constraint on the user_number column and rename to number
         do {
             $userNumber = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
         } while (User::where('number', $userNumber)->exists());

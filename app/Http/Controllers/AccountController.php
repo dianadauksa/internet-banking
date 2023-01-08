@@ -50,8 +50,6 @@ class AccountController extends Controller
             $number = $prefix . $suffix;
         } while (Account::where('number', $number)->exists());
 
-        // TODO: modify database schema to include a unique constraint on the account number column
-
         $newAccount = (new Account)->fill([
             'name' => $request->name ?? 'New account',
             'number' => $number,
