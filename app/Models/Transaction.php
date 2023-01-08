@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Transaction extends Model
 {
     protected $fillable = [
-        'account_from_id', 'account_to_id', 'amount', 'currency', 'type'
+        'account_from_id', 'account_to_id', 'amount', 'currency', 'type', 'description'
     ];
 
     public function user(): BelongsTo

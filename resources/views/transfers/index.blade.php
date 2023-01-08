@@ -73,7 +73,8 @@
                                             <x-input-label class="mt-4" for="account_to"
                                                            :value="__('Recipient account')"/>
                                             <x-text-input id="account_to" name="account_to" type="text"
-                                                          class="mt-1 block w-full text-center" placeholder="Enter recipient's account e.g. LV77ORCL000000000"
+                                                          class="mt-1 block w-full text-center"
+                                                          placeholder="Enter recipient's account e.g. LV77ORCL000000000"
                                                           required autofocus autocomplete="account_to"/>
 
                                             <x-input-label class="mt-4" for="amount" :value="__('Amount')"/>
@@ -81,27 +82,29 @@
                                                           class="mt-1 block w-1/2 text-center" placeholder="0.00"
                                                           required autofocus autocomplete="amount"/>
 
-                                                <div id="password-field" style="display:none">
-                                                    <x-input-label class="mt-4 text-center" for="password" :value="__('Password')"/>
-                                                    <x-text-input
-                                                        id="password"
-                                                        name="password"
-                                                        type="password"
-                                                        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-1/2 text-center"
-                                                        placeholder="Enter password to confirm"
-                                                    />
-                                                </div>
+                                            <div id="password-field" style="display:none">
+                                                <x-input-label class="mt-4 text-center" for="password"
+                                                               :value="__('Password')"/>
+                                                <x-text-input
+                                                    id="password"
+                                                    name="password"
+                                                    type="password"
+                                                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-1/2 text-center"
+                                                    placeholder="Enter password to confirm"
+                                                />
+                                            </div>
 
-                                                <div id="security-code-field" style="display:none">
-                                                    <x-input-label class="mt-4 text-center" for="security_code" value="Security Code No. {{$selectedIndex + 1}}"/>
-                                                    <x-text-input
-                                                        id="security_code"
-                                                        name="security_code"
-                                                        type="text"
-                                                        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-1/2 text-center"
-                                                        placeholder="Enter code from code card"
-                                                    />
-                                                </div>
+                                            <div id="security-code-field" style="display:none">
+                                                <x-input-label class="mt-4 text-center" for="security_code"
+                                                               value="Security Code No. {{$selectedIndex + 1}}"/>
+                                                <x-text-input
+                                                    id="security_code"
+                                                    name="security_code"
+                                                    type="text"
+                                                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-1/2 text-center"
+                                                    placeholder="Enter code from code card"
+                                                />
+                                            </div>
                                             <x-primary-button class="mt-6">{{ __('Transfer') }}</x-primary-button>
                                         </div>
                                     </form>

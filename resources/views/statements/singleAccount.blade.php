@@ -59,11 +59,18 @@
                                     <div class="flex-1">
                                         <div class="text-gray-700 font-bold">
                                             @if ($transaction->getAccountTo->user == $transaction->getAccountFrom->user)
-                                                To your {{ $transaction->getAccountTo->name }} account <small class="ml-2">({{ $transaction->getAccountTo->number }})</small>
+                                                To your {{ $transaction->getAccountTo->name }} account
+                                                <small class="ml-2">({{ $transaction->getAccountTo->number }})</small>
                                             @else
-                                                To {{ $transaction->getAccountTo->user->getFullName() }} <small class="ml-2">({{ $transaction->getAccountTo->number }})</small>
+                                                To {{ $transaction->getAccountTo->user->getFullName() }}
+                                                <small class="ml-2">({{ $transaction->getAccountTo->number }})</small>
                                             @endif
                                         </div>
+                                        @if ($transaction->description)
+                                        <div class="text-gray-500 text-sm">
+                                            {{ $transaction->description }}
+                                        </div>
+                                        @endif
                                         <div class="text-gray-500 text-sm">
                                             {{ $transaction->created_at->format('d/m/Y H:i') }}
                                         </div>
@@ -77,11 +84,18 @@
                                     <div class="flex-1">
                                         <div class="text-gray-700 font-bold">
                                             @if ($transaction->getAccountFrom->user == $transaction->getAccountTo->user)
-                                                From your {{ $transaction->getAccountFrom->name }} account <small class="ml-2">({{ $transaction->getAccountFrom->number }})</small>
+                                                From your {{ $transaction->getAccountFrom->name }} account
+                                                <small class="ml-2">({{ $transaction->getAccountFrom->number }})</small>
                                             @else
-                                            From {{ $transaction->getAccountFrom->user->getFullName() }} <small class="ml-2">({{ $transaction->getAccountFrom->number }})</small>
+                                            From {{ $transaction->getAccountFrom->user->getFullName() }}
+                                                <small class="ml-2">({{ $transaction->getAccountFrom->number }})</small>
                                             @endif
                                         </div>
+                                        @if ($transaction->description)
+                                            <div class="text-gray-500 text-sm">
+                                                {{ $transaction->description }}
+                                            </div>
+                                        @endif
                                         <div class="text-gray-500 text-sm">
                                             {{ $transaction->created_at->format('d/m/Y H:i') }}
                                         </div>

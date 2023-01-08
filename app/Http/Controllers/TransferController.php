@@ -44,7 +44,7 @@ class TransferController extends Controller
         }
         $this->validate($request, $rules);
 
-        if ($senderAccount->user_id !== Auth::user()->id || $senderAccount->id === $receiverAccount->id) {
+        if ($senderAccount->user_id !== Auth::user()->id || $receiverAccount == $senderAccount) {
             return abort('403');
         }
 
@@ -97,7 +97,12 @@ class TransferController extends Controller
         return $exchangeRates[$currencyTo] / $exchangeRates[$currencyFrom];
     }
 
-    private function recordTransactions(Account $accountFrom, Account $accountTo, float $amount, float $exchangedAmount): void
+    private function recordTransactions(
+        Account $accountFrom,
+        Account $accountTo,
+        float   $amount,
+        float   $exchangedAmount
+    ): void
     {
         $transactionOut = (new Transaction)->fill([
             'account_from_id' => $accountFrom->id,
@@ -109,13 +114,25 @@ class TransferController extends Controller
         $transactionOut->user()->associate(auth()->user());
         $transactionOut->save();
 
-        $transactionIn = (new Transaction)->fill([
-            'account_from_id' => $accountFrom->id,
-            'account_to_id' => $accountTo->id,
-            'amount' => $exchangedAmount,
-            'currency' => $accountTo->currency,
-            'type' => 'INCOMING',
-        ]);
+        if ($accountFrom->currency !== $accountTo->currency) {
+            $transactionIn = (new Transaction)->fill([
+                'account_from_id' => $accountFrom->id,
+                'account_to_id' => $accountTo->id,
+                'amount' => $exchangedAmount,
+                'currency' => $accountTo->currency,
+                'type' => 'INCOMING',
+                'description' => "$amount $accountFrom->currency Exchange rate: "
+                    . number_format($this->getExchangeRate($accountFrom, $accountTo), 6),
+            ]);
+        } else {
+            $transactionIn = (new Transaction)->fill([
+                'account_from_id' => $accountFrom->id,
+                'account_to_id' => $accountTo->id,
+                'amount' => $exchangedAmount,
+                'currency' => $accountTo->currency,
+                'type' => 'INCOMING',
+            ]);
+        }
         $transactionIn->user()->associate($accountTo->user);
         $transactionIn->save();
     }
