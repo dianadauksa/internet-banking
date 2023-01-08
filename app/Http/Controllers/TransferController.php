@@ -27,13 +27,21 @@ class TransferController extends Controller
         $selectedCode = $codes[$selectedIndex];
         request()->merge(['selected_code' => $selectedCode]);
 
-        $rules = [
-            'account_from' => 'required|exists:accounts,id',
-            'account_to' => 'required|exists:accounts,number',
-            'amount' => 'required|numeric|min:0.01|max:' . $senderAccount->balance,
-            'password' => 'required|current_password',
-            'security_code' => 'required|same:selected_code',
-        ];
+        if ($receiverAccount->user_id !== auth()->user()->id) {
+            $rules = [
+                'account_from' => 'required|exists:accounts,id',
+                'account_to' => 'required|exists:accounts,number',
+                'amount' => 'required|numeric|min:0.01|max:' . $senderAccount->balance,
+                'password' => 'required|current_password',
+                'security_code' => 'required|same:selected_code',
+            ];
+        } else {
+            $rules = [
+                'account_from' => 'required|exists:accounts,id',
+                'account_to' => 'required|exists:accounts,number',
+                'amount' => 'required|numeric|min:0.01|max:' . $senderAccount->balance,
+            ];
+        }
         $this->validate($request, $rules);
 
         if ($senderAccount->user_id !== Auth::user()->id || $senderAccount->id === $receiverAccount->id) {

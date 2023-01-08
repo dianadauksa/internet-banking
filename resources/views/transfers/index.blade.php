@@ -69,21 +69,19 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            <x-input-error class="mt-2" :messages="$errors->get('insufficient-funds')"/>
 
                                             <x-input-label class="mt-4" for="account_to"
                                                            :value="__('Recipient account')"/>
                                             <x-text-input id="account_to" name="account_to" type="text"
                                                           class="mt-1 block w-full text-center" placeholder="Enter recipient's account e.g. LV77ORCL000000000"
                                                           required autofocus autocomplete="account_to"/>
-                                            <x-input-error class="mt-2" :messages="$errors->get('account-to')"/>
 
                                             <x-input-label class="mt-4" for="amount" :value="__('Amount')"/>
                                             <x-text-input id="amount" name="amount" type="text"
                                                           class="mt-1 block w-1/2 text-center" placeholder="0.00"
                                                           required autofocus autocomplete="amount"/>
 
-                                                <div id="password-field">
+                                                <div id="password-field" style="display:none">
                                                     <x-input-label class="mt-4 text-center" for="password" :value="__('Password')"/>
                                                     <x-text-input
                                                         id="password"
@@ -94,7 +92,7 @@
                                                     />
                                                 </div>
 
-                                                <div id="security-code-field">
+                                                <div id="security-code-field" style="display:none">
                                                     <x-input-label class="mt-4 text-center" for="security_code" value="Security Code No. {{$selectedIndex + 1}}"/>
                                                     <x-text-input
                                                         id="security_code"
@@ -108,10 +106,8 @@
                                         </div>
                                     </form>
                                 </div>
-
                             </div>
                         </div>
-
 
                     </div>
                 </section>
@@ -119,4 +115,19 @@
         </div>
 
     </div>
+    <script>
+        const accountToField = document.getElementById('account_to');
+        const passwordField = document.getElementById('password-field');
+        const securityCodeField = document.getElementById('security-code-field');
+        accountToField.addEventListener('change', () => {
+            const accountNumbers = @json($accounts->pluck('number'));
+            if (accountNumbers.includes(accountToField.value)) {
+                passwordField.style.display = 'none';
+                securityCodeField.style.display = 'none';
+            } else {
+                passwordField.style.display = 'block';
+                securityCodeField.style.display = 'block';
+            }
+        });
+    </script>
 </x-app-layout>
