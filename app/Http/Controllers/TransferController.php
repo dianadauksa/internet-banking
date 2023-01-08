@@ -57,7 +57,9 @@ class TransferController extends Controller
         $this->recordTransactions($senderAccount, $receiverAccount, $request->amount, $exchangedAmount);
 
         return Redirect::back()
-            ->with('status', "You transferred $request->amount $senderAccount->currency to " .$receiverAccount->user->firstName);
+            ->with('status',
+                "You transferred $request->amount $senderAccount->currency to " . $receiverAccount->user->firstName
+            );
     }
 
     private function getExchangeRate(Account $accountFrom, Account $accountTo): float
@@ -88,9 +90,9 @@ class TransferController extends Controller
         $exchangeRates = Cache::get('exchange_rates');
 
         if ($currencyFrom === 'EUR') {
-           return $exchangeRates[$currencyTo];
+            return $exchangeRates[$currencyTo];
         } elseif ($currencyTo === 'EUR') {
-           return 1 / $exchangeRates[$currencyFrom];
+            return 1 / $exchangeRates[$currencyFrom];
         }
         return $exchangeRates[$currencyTo] / $exchangeRates[$currencyFrom];
     }
