@@ -63,7 +63,7 @@ class AccountController extends Controller
     }
 
     /**
-     * Delete a user's bank account from the bank accounts table only if the balance is 0.00
+     * Delete a user's bank account from the bank accounts table only if the balance is 0.00, and it is not the MAIN account
      */
     public function delete(Account $account, Request $request): RedirectResponse
     {
