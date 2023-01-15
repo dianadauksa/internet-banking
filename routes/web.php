@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\CryptoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatementController;
 use App\Http\Controllers\TransferController;
@@ -48,6 +49,11 @@ Route::middleware('auth')->group(function () {
 Route::get('/crypto', function () {
     return view('crypto');
 })->middleware(['auth', 'verified'])->name('crypto');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/crypto', [CryptoController::class, 'index'])->name('crypto');
+    Route::post('/crypto', [CryptoController::class, 'store'])->name('crypto.add');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/statements', [StatementController::class, 'index'])->name('statements');
