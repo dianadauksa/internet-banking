@@ -6,7 +6,6 @@
             grid-template-rows: 1fr;
             text-align: center;
             font-weight: bold;
-            border-bottom: 1px solid #ccc;
             padding-bottom: 4px;
             grid-template-areas:
         "coin name price change1h change24h";
@@ -23,7 +22,6 @@
         }
 
         li {
-            border-bottom: 1px solid #ccc;
             padding-top: 4px;
             padding-bottom: 4px;
         }

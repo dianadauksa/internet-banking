@@ -89,7 +89,7 @@
                 <section>
                     <form method="get" action="#" onsubmit="return submitForm(event)">
                         @csrf
-                        <div class="flex items-center space-x-4 py-2 border-b border-gray-300">
+                        <div class="flex items-center space-x-4 py-1">
                             <input type="text" name="symbol" placeholder="Search a coin, e.g. ADA" class="form-input w-52 rounded-md shadow-sm mr-2" value="{{ request('cryptoCoin') }}">
                             <x-primary-button class="ml-2">Search</x-primary-button>
                         </div>
