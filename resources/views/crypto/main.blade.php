@@ -27,19 +27,24 @@
             padding-top: 4px;
             padding-bottom: 4px;
         }
+
         img {
             width: 48px;
             height: 48px;
         }
+
         h2 {
             margin-bottom: 8px;
         }
+
         p {
             margin-bottom: 8px;
         }
-        .header-coin{
+
+        .header-coin {
             flex-basis: 10%;
         }
+
         .header-name, .header-price, .header-change-1h, .header-change-24h {
             flex-basis: 20%;
         }
@@ -86,24 +91,25 @@
                     </div>
                 </div>
             @endif
-                <section>
-                    <form method="get" action="#" onsubmit="return submitForm(event)">
-                        @csrf
-                        <div class="flex items-center space-x-4 py-1">
-                            <input type="text" name="symbol" placeholder="Search a coin, e.g. ADA" class="form-input w-52 rounded-md shadow-sm mr-2" value="{{ request('cryptoCoin') }}">
-                            <x-primary-button class="ml-2">Search</x-primary-button>
-                        </div>
-                    </form>
+            <section>
+                <form method="get" action="#" onsubmit="return submitForm(event)">
+                    @csrf
+                    <div class="flex items-center space-x-4 py-1">
+                        <input type="text" name="symbol" placeholder="Search a coin, e.g. ADA"
+                               class="form-input w-52 rounded-md shadow-sm mr-2" value="{{ request('cryptoCoin') }}">
+                        <x-primary-button class="ml-2">Search</x-primary-button>
+                    </div>
+                </form>
 
-                    <script>
-                        function submitForm(event) {
-                            event.preventDefault();
-                            let symbol = document.querySelector("input[name='symbol']").value;
-                            symbol = symbol.toUpperCase();
-                            window.location.href = "{{ route('crypto.show', '') }}" + '/' + symbol;
-                        }
-                    </script>
-                </section>
+                <script>
+                    function submitForm(event) {
+                        event.preventDefault();
+                        let symbol = document.querySelector("input[name='symbol']").value;
+                        symbol = symbol.toUpperCase();
+                        window.location.href = "{{ route('crypto.show', '') }}" + '/' + symbol;
+                    }
+                </script>
+            </section>
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-2xl">
                     <div class="header">
@@ -114,27 +120,27 @@
                         <div class="header-change-24h">CHANGE IN 24H</div>
                     </div>
                     <ul>
-                            @foreach($coins as $coin)
-                                <li class="crypto-coin">
-                                    <a href="{{ route('crypto.show', $coin->symbol) }}">
-                                        <img src="{{ $coin->logoURL }}" alt="{{ $coin->name }}" class="mx-auto">
-                                    </a>
-                                    <a href="{{ route('crypto.show', $coin->symbol) }}">
-                                        <h2>{{ $coin->name }} ({{ $coin->symbol }})</h2>
-                                    </a>
-                                    <p>$ {{ number_format($coin->price, 2) }}</p>
-                                    @if ($coin->priceChange1h > 0)
-                                        <p class="text-green-600">{{ number_format($coin->priceChange1h, 2) }}%</p>
-                                    @else
+                        @foreach($coins as $coin)
+                            <li class="crypto-coin">
+                                <a href="{{ route('crypto.show', $coin->symbol) }}">
+                                    <img src="{{ $coin->logoURL }}" alt="{{ $coin->name }}" class="mx-auto">
+                                </a>
+                                <a href="{{ route('crypto.show', $coin->symbol) }}">
+                                    <h2>{{ $coin->name }} ({{ $coin->symbol }})</h2>
+                                </a>
+                                <p>$ {{ number_format($coin->price, 2) }}</p>
+                                @if ($coin->priceChange1h > 0)
+                                    <p class="text-green-600">{{ number_format($coin->priceChange1h, 2) }}%</p>
+                                @else
                                     <p class="text-red-600">{{ number_format($coin->priceChange1h, 2) }}%</p>
-                                    @endif
-                                    @if($coin->priceChange24h > 0)
-                                        <p class="text-green-600">{{ number_format($coin->priceChange24h,2) }}%</p>
-                                    @else
-                                        <p class="text-red-600">{{ number_format($coin->priceChange24h,2) }}%</p>
-                                    @endif
-                                </li>
-                            @endforeach
+                                @endif
+                                @if($coin->priceChange24h > 0)
+                                    <p class="text-green-600">{{ number_format($coin->priceChange24h,2) }}%</p>
+                                @else
+                                    <p class="text-red-600">{{ number_format($coin->priceChange24h,2) }}%</p>
+                                @endif
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
