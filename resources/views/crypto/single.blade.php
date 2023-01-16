@@ -89,7 +89,7 @@
                             <a href="{{ route('crypto.show', $coin->symbol) }}">
                                 <img src="{{ $coin->logoURL }}" alt="{{ $coin->name }}" class="mx-auto">
                             </a>
-                            <a href="">
+                            <a href="{{ route('crypto.show', $coin->symbol) }}">
                                 <h2>{{ $coin->name }} ({{ $coin->symbol }})</h2>
                             </a>
                             <p>$ {{ number_format($coin->price, 2) }}</p>
