@@ -46,12 +46,9 @@ Route::middleware('auth')->group(function () {
         ->name('transfers.make');
 });
 
-Route::get('/crypto', function () {
-    return view('crypto');
-})->middleware(['auth', 'verified'])->name('crypto');
-
 Route::middleware('auth')->group(function () {
     Route::get('/crypto', [CryptoController::class, 'index'])->name('crypto');
+    Route::get('/crypto/{cryptoCoin}', [CryptoController::class, 'show'])->name('crypto.show');
     Route::post('/crypto', [AccountController::class, 'storeCrypto'])->name('cryptoAccount.add');
 });
 

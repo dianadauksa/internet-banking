@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\CryptoCoin;
 use App\Repositories\CoinMarketCapRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
@@ -20,13 +21,22 @@ class CryptoController extends Controller
 
     public function index(): View
     {
-        $cryptoCoins = Cache::get('cryptoCoins');
-        if ($cryptoCoins === null) {
-            $cryptoCoins = $this->coinMarketCapRepository->getData();
-            Cache::put('cryptoCoins', $cryptoCoins, 120);
+        $coins = Cache::get('coins');
+        if ($coins === null) {
+            $coins = $this->coinMarketCapRepository->getData();
+            Cache::put('coins', $coins, 1200);
         }
         $account = auth()->user()->accounts()->where('name', 'CRYPTO')->first();
-        return view('crypto.main', ['account' => $account, 'cryptoCoins' => $cryptoCoins]);
+        return view('crypto.main', ['account' => $account, 'coins' => $coins]);
     }
 
+    public function show(string $symbol)
+    {
+        $coin = Cache::get('coins')->where('symbol', $symbol)->first();
+        if ($coin === null) {
+            $coin = $this->coinMarketCapRepository->getSingle($symbol);
+        }
+        $account = auth()->user()->accounts()->where('name', 'CRYPTO')->first();
+        return view('crypto.single', ['account' => $account, 'coin' => $coin]);
+    }
 }
