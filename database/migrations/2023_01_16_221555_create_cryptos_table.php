@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->integer('user_id')->after('id');
-            $table->foreign('user_id')->references('id')->on('users');
+        Schema::create('user_cryptos', function (Blueprint $table) {
+            $table->id();
+            $table->
+            $table->timestamps();
         });
     }
 
@@ -26,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('cryptos');
     }
 };

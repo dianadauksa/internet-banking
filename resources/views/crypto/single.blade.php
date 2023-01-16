@@ -106,6 +106,20 @@
                         </li>
 
                     </ul>
+
+                    <div class="flex items-center crypto-coin-purchase py-4">
+                        <form method="POST" action="{{ route('crypto.buy', $coin->symbol) }}">
+                            @csrf
+                            <input type="number" name="amount" placeholder="Enter amount of coins" class="form-input w-52 rounded-md shadow-sm mr-2">
+                            <x-primary-button class="ml-2">Buy {{ $coin->name }}</x-primary-button>
+                        </form>
+                        <form method="POST" action="{{ route('crypto.sell', $coin->symbol) }}">
+                            @csrf
+                            <input type="number" name="amount" placeholder="Enter amount of coins" class="form-input w-52 rounded-md shadow-sm mr-2 ml-4">
+                            <x-secondary-button class="ml-2">Sell {{ $coin->name }}</x-secondary-button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
 
