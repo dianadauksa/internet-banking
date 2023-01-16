@@ -52,7 +52,7 @@ Route::get('/crypto', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/crypto', [CryptoController::class, 'index'])->name('crypto');
-    Route::post('/crypto', [CryptoController::class, 'store'])->name('crypto.add');
+    Route::post('/crypto', [AccountController::class, 'storeCrypto'])->name('cryptoAccount.add');
 });
 
 Route::middleware('auth')->group(function () {
