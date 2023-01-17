@@ -55,7 +55,24 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-
+            @if (session('status'))
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 4000)"
+                    class="mt-4 text-center text-lg text-green-600"
+                >{{ session('status') }}</p>
+            @endif
+            @if (session('error'))
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 4000)"
+                    class="mt-4 text-center text-lg text-red-600"
+                >{{ session('error') }}</p>
+            @endif
             <section class="space-y-6">
                 <div class="bg-white overflow-hidden shadow sm:rounded-lg">
 
@@ -110,18 +127,49 @@
                     <div class="flex items-center crypto-coin-purchase py-4">
                         <form method="POST" action="{{ route('crypto.buy', $coin->symbol) }}">
                             @csrf
-                            <input type="number" name="amount" placeholder="Enter amount of coins" class="form-input w-52 rounded-md shadow-sm mr-2">
+                            <input type="number" name="amount" placeholder="Enter amount of coins"
+                                   class="form-input w-52 rounded-md shadow-sm mr-2">
                             <x-primary-button class="ml-2">Buy {{ $coin->name }}</x-primary-button>
                         </form>
                         <form method="POST" action="{{ route('crypto.sell', $coin->symbol) }}">
                             @csrf
-                            <input type="number" name="amount" placeholder="Enter amount of coins" class="form-input w-52 rounded-md shadow-sm mr-2 ml-4">
-                            <x-secondary-button class="ml-2">Sell {{ $coin->name }}</x-secondary-button>
+                            <input type="number" name="amount" placeholder="Enter amount of coins"
+                                   class="form-input w-52 rounded-md shadow-sm mr-2 ml-4">
+                            <x-primary-button class="ml-2">Sell {{ $coin->name }}</x-primary-button>
                         </form>
                     </div>
-
+                    @if($userCoin)
+                        <div>
+                            <p class="text-gray-600 ml-1">You own {{$userCoin->amount}} {{$coin->name}}</p>
+                        </div>
+                    @endif
                 </div>
             </div>
+
+            @if ($transactions)
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="max-w-2xl">
+                        <ul>
+                            @foreach ($transactions as $transaction)
+                                <li class="flex items center space-x-4 py-1 border-b border-gray-300">
+                                    <div class="flex-1">
+                                        <div class="text-gray-700 font-bold">
+                                            {{$transaction->type}} {{$transaction->coin}}
+                                        </div>
+                                        <div class="text-gray-500 text-sm">
+                                            {{ $transaction->created_at->format('d/m/Y H:i') }}
+                                        </div>
+                                    </div>
+                                    <div class="text-gray-600 font-bold">
+                                        {{ $transaction->amount }} x $ {{ $transaction->price }}
+                                        <span class="font-extrabold">Total: $ {{ $transaction->total}}</span>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
 
         </div>
     </div>
