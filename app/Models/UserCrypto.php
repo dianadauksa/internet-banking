@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Repositories\CoinMarketCapRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class UserCrypto extends Model
 {
@@ -21,5 +23,15 @@ class UserCrypto extends Model
     public function account()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function getCrypto(): CryptoCoin
+    {
+        $crypto = Cache::get('coins')->where('symbol', $this->coin)->first();
+        if ($crypto === null) {
+            $coinMarketCapRepository = new CoinMarketCapRepository();
+            $crypto = $coinMarketCapRepository->getSingle($this->coin);
+        }
+        return $crypto;
     }
 }
