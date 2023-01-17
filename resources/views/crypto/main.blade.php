@@ -40,14 +40,6 @@
         p {
             margin-bottom: 8px;
         }
-
-        .header-coin {
-            flex-basis: 10%;
-        }
-
-        .header-name, .header-price, .header-change-1h, .header-change-24h {
-            flex-basis: 20%;
-        }
     </style>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
