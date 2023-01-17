@@ -93,7 +93,10 @@
             @endif
             <section>
                 <div class="flex items-center space-x-4 py-1">
-                    <x-primary-button>SEE MY PORTFOLIO</x-primary-button>
+                    <a href="{{ route('crypto.portfolio') }}"
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                        SEE MY PORTFOLIO
+                    </a>
                 </div>
                 <form method="get" action="#" onsubmit="return submitForm(event)">
                     @csrf

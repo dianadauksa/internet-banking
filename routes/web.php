@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CryptoController;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatementController;
 use App\Http\Controllers\TransferController;
@@ -52,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/crypto', [AccountController::class, 'storeCrypto'])->name('cryptoAccount.add');
     Route::post('/crypto/{cryptoCoin}/buy', [CryptoController::class, 'buy'])->name('crypto.buy');
     Route::post('/crypto/{cryptoCoin}/sell', [CryptoController::class, 'sell'])->name('crypto.sell');
+    Route::get('/portfolio', [PortfolioController::class, 'index'])->name('crypto.portfolio');
 });
 
 Route::middleware('auth')->group(function () {

@@ -18,18 +18,8 @@ class UserCrypto extends Model
         'avg_price'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function account()
     {
         return $this->belongsTo(Account::class);
-    }
-
-    public function crypto()
-    {
-        return $this->belongsTo(CryptoCoin::class);
     }
 }
