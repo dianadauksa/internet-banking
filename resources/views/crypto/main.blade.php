@@ -92,12 +92,15 @@
                 </div>
             @endif
             <section>
+                <div class="flex items-center space-x-4 py-1">
+                    <x-primary-button>SEE MY PORTFOLIO</x-primary-button>
+                </div>
                 <form method="get" action="#" onsubmit="return submitForm(event)">
                     @csrf
                     <div class="flex items-center space-x-4 py-1">
                         <input type="text" name="symbol" placeholder="Search a coin, e.g. ADA"
                                class="form-input w-52 rounded-md shadow-sm mr-2" value="{{ request('cryptoCoin') }}">
-                        <x-primary-button class="ml-2">Search</x-primary-button>
+                        <x-secondary-button class="ml-2">Search</x-secondary-button>
                     </div>
                 </form>
 
