@@ -26,7 +26,7 @@ class CryptoController extends Controller
         $coins = Cache::get('coins');
         if ($coins === null) {
             $coins = $this->coinMarketCapRepository->getData();
-            Cache::put('coins', $coins, 1200);
+            Cache::put('coins', $coins, 120);
         }
         $account = auth()->user()->accounts()->where('name', 'CRYPTO')->first();
         return view('crypto.main', ['account' => $account, 'coins' => $coins]);
