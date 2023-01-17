@@ -18,6 +18,7 @@
                 <div class="bg-white overflow-hidden shadow sm:rounded-lg">
 
                     @foreach ($accounts as $account)
+                        @if($account->name !== 'CRYPTO')
                         <div class="p-6 border-b border-gray-200">
                             <a href="{{ route('statements.show', $account) }}" class="block font-bold text-xl mb-2 account-name">
                                 {{ $account->name }}
@@ -29,6 +30,7 @@
                                 Balance: {{ $account->balance }} {{ $account->currency }}
                             </div>
                         </div>
+                        @endif
                     @endforeach
 
                 </div>
