@@ -26,7 +26,7 @@ class CryptoController extends Controller
         $coins = Cache::get('coins');
         if ($coins === null) {
             $coins = $this->coinMarketCapRepository->getData();
-            Cache::put('coins', $coins, 120);
+            Cache::put('coins', $coins, now()->addMinutes(120));
         }
         $account = auth()->user()->accounts()->where('name', 'CRYPTO')->first();
         return view('crypto.main', ['account' => $account, 'coins' => $coins]);
@@ -119,6 +119,16 @@ class CryptoController extends Controller
             'status',
             'Sale successful. You sold ' . $amount . ' ' . $coin->symbol . ' for $ ' . number_format($amount * $coin->price,2)
         );
+    }
+
+    public function statements(Account $account): View
+    {
+        if ($account->user_id !== auth()->user()->id) {
+            return abort('403');
+        }
+        $transactions = CryptoTransaction::where('account_id', $account->id)->get();
+        $transactions = $transactions->sortByDesc('created_at');
+        return view('crypto.statements', ['account' => $account, 'transactions' => $transactions]);
     }
 
     private function recordBuyCryptoTransaction(Account $account, CryptoCoin $coin, int $amount): void

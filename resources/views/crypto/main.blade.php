@@ -63,15 +63,16 @@
                     <div class="bg-white overflow-hidden shadow sm:rounded-lg">
 
                         <div class="p-6 border-b border-gray-200">
-                            <a href="{{ route('crypto') }}" class="block font-bold text-xl mb-2 account-name">
-                                {{ $account->name }}
-                            </a>
+                            <div class="block font-bold text-xl mb-2 account-name">{{ $account->name }}</div>
                             <div class="text-gray-700 font-medium text-sm">
                                 Account Number: {{ $account->number }}
                             </div>
                             <div class="text-gray-700 font-medium text-sm">
                                 Balance: {{ $account->balance }} {{ $account->currency }}
                             </div>
+                            <a href="{{ route('crypto.statements', $account) }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                                SEE STATEMENT
+                            </a>
                         </div>
 
                     </div>
