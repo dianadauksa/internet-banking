@@ -62,7 +62,7 @@ class StatementController extends Controller
             });
         }
 
-        if ($request->form || $request->to) {
+        if ($request->from || $request->to) {
             $transactions = $transactions->filter(function ($transaction) use ($request) {
                 if ($request->from && $request->to) {
                     return ($transaction->created_at->format('Y-m-d') >= $request->from
