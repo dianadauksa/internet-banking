@@ -101,7 +101,7 @@ class AccountController extends Controller
             'name' => 'CRYPTO',
             'number' => $number,
             'currency' => 'USD',
-            'balance' => 0.00,
+            'balance' => 1000.00,
         ]);
         $newAccount->user()->associate(auth()->user());
         $newAccount->save();

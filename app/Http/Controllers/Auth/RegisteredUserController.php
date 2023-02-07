@@ -62,7 +62,7 @@ class RegisteredUserController extends Controller
         $account = (new Account)->fill([
             'name' => 'MAIN',
             'number' => $accountNumber,
-            'balance' => 0.00,
+            'balance' => 1000.00,
         ]);
         $account->user()->associate($user);
         $account->save();
