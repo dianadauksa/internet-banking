@@ -16,6 +16,7 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
+            'codes' => $request->user()->getSecurityCodes(),
         ]);
     }
 
