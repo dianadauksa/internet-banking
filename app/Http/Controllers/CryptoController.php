@@ -149,7 +149,7 @@ class CryptoController extends Controller
                 return ($transaction->created_at->format('Y-m-d') <= $request->to);
             });
         }
-        
+
         if ($request->type && $request->type !== 'all') {
             $transactions = $transactions->filter(function ($transaction) use ($request) {
                 return (str_contains($transaction->type, strtoupper($request->type)));
