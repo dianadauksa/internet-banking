@@ -127,6 +127,39 @@ class CryptoController extends Controller
         return view('crypto.statements', ['account' => $account, 'transactions' => $transactions]);
     }
 
+    public function filterStatements(Account $account, Request $request): View
+    {
+        if ($account->user_id !== auth()->user()->id) {
+            return abort('403');
+        }
+        $transactions = CryptoTransaction::where('account_id', $account->id)->get();
+
+        if ($request->coin) {
+            $transactions = $transactions->where('coin', strtoupper($request->coin));
+        }
+
+        if ($request->from || $request->to) {
+            $transactions = $transactions->filter(function ($transaction) use ($request) {
+                if ($request->from && $request->to) {
+                    return ($transaction->created_at->format('Y-m-d') >= $request->from
+                        && $transaction->created_at->format('Y-m-d') <= $request->to);
+                } elseif ($request->from) {
+                    return ($transaction->created_at->format('Y-m-d') >= $request->from);
+                }
+                return ($transaction->created_at->format('Y-m-d') <= $request->to);
+            });
+        }
+        
+        if ($request->type && $request->type !== 'all') {
+            $transactions = $transactions->filter(function ($transaction) use ($request) {
+                return (str_contains($transaction->type, strtoupper($request->type)));
+            });
+        }
+
+        $transactions = $transactions->sortByDesc('created_at');
+        return view('crypto.statements', ['account' => $account, 'transactions' => $transactions]);
+    }
+
     private function recordBuyCryptoTransaction(Account $account, CryptoCoin $coin, int $amount): void
     {
         $transaction = new CryptoTransaction();
