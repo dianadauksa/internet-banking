@@ -74,8 +74,12 @@
                     <ul>
                         @foreach($userCoins as $coin)
                             <li class="crypto-coin">
+                                <a href="{{ route('crypto.show', $coin->coin) }}">
                                 <img src="{{ $coin->getCrypto()->logoURL }}" alt="{{$coin->coin}}" class="mx-auto">
+                                </a>
+                                <a href="{{ route('crypto.show', $coin->coin) }}">
                                 <h2 class="text-gray-600">{{ $coin->getCrypto()->name }} ({{ $coin->coin }})</h2>
+                                </a>
                                 <p class="text-gray-600">$ {{ number_format($coin->getCrypto()->price, 2) }}</p>
                                 <p>{{ $coin->amount }}</p>
                                 <p>${{ number_format(($coin->getCrypto()->price * $coin->amount), 2) }}</p>

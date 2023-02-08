@@ -129,16 +129,15 @@
                                    class="form-input w-52 rounded-md shadow-sm mr-2 ml-4">
                             <x-primary-button class="ml-2">Sell {{ $coin->name }}</x-primary-button>
                         </form>
+                        @if($userCoin)
+                            <p class="text-gray-600 ml-4 mt-3">You already own {{$userCoin->amount}} {{$coin->name}}</p>
+                        @endif
                     </div>
-                    @if($userCoin)
-                        <div>
-                            <p class="text-gray-600 ml-1">You own {{$userCoin->amount}} {{$coin->name}}</p>
-                        </div>
-                    @endif
+
                 </div>
             </div>
 
-            @if ($transactions)
+            @if ($transactions->count() > 0)
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <div class="max-w-2xl">
                         <ul>
