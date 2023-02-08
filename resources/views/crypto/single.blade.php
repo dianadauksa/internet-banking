@@ -38,6 +38,10 @@
         p {
             margin-bottom: 8px;
         }
+
+        #coin, #amount, #total {
+            font-weight: bold;
+        }
     </style>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -144,16 +148,17 @@
                             @foreach ($transactions as $transaction)
                                 <li class="flex items center space-x-4 py-1 border-b border-gray-300">
                                     <div class="flex-1">
-                                        <div class="text-gray-700 font-bold">
-                                            {{$transaction->type}} {{$transaction->coin}}
+                                        <div class="text-gray-700">
+                                            {{$transaction->type}} <span id="coin">{{$transaction->coin}}</span>
                                         </div>
                                         <div class="text-gray-500 text-sm">
                                             {{ $transaction->created_at->format('d/m/Y H:i') }}
                                         </div>
                                     </div>
                                     <div class="text-gray-600 font-bold">
-                                        {{ $transaction->amount }} x $ {{ $transaction->price }}
-                                        <span class="font-extrabold">Total: $ {{ $transaction->total}}</span>
+                                        <span id="amount">{{ $transaction->amount }}</span> x
+                                        $ {{ $transaction->price }}
+                                        <span id="total">Total:</span> $ {{ $transaction->total}}
                                     </div>
                                 </li>
                             @endforeach
