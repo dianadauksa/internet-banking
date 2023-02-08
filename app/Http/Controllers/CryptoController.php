@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
-use App\Models\CryptoCoin;
-use App\Models\CryptoTransaction;
-use App\Models\UserCrypto;
+use App\Models\{Account, CryptoCoin, CryptoTransaction, UserCrypto};
 use App\Repositories\CoinMarketCapRepository;
 use Illuminate\Http\{RedirectResponse, Request};
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\{Cache, Redirect};
 use Illuminate\View\View;
 
 class CryptoController extends Controller
