@@ -70,9 +70,16 @@
                             <div class="text-gray-700 font-medium text-sm">
                                 Balance: {{ $account->balance }} {{ $account->currency }}
                             </div>
-                            <a href="{{ route('crypto.statements', $account) }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
-                                SEE STATEMENT
-                            </a>
+                            <div class="inline-flex items-center space-x-4 py-1">
+                                <a href="{{ route('crypto.portfolio') }}"
+                                   class="mr-2 px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                    SEE MY PORTFOLIO
+                                </a>
+                                <a href="{{ route('crypto.statements', $account) }}"
+                                   class="ml-2 px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                                    SEE ACCOUNT STATEMENT
+                                </a>
+                            </div>
                         </div>
 
                     </div>
@@ -85,20 +92,18 @@
                 </div>
             @endif
             <section>
-                <div class="flex items-center space-x-4 py-1">
-                    <a href="{{ route('crypto.portfolio') }}"
-                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                        SEE MY PORTFOLIO
-                    </a>
+                <div class="inline-flex space-x-2">
+                    <form method="get" action="#" onsubmit="return submitForm(event)">
+                        @csrf
+                        <div class="flex items-center space-x-4 py-1">
+                            <input type="text" name="symbol" placeholder="Search a coin, e.g. ADA"
+                                   class="form-input w-52 rounded-md shadow-sm mr-2"
+                                   value="{{ request('cryptoCoin') }}">
+                            <x-secondary-button class="ml-2">Search</x-secondary-button>
+                        </div>
+                    </form>
                 </div>
-                <form method="get" action="#" onsubmit="return submitForm(event)">
-                    @csrf
-                    <div class="flex items-center space-x-4 py-1">
-                        <input type="text" name="symbol" placeholder="Search a coin, e.g. ADA"
-                               class="form-input w-52 rounded-md shadow-sm mr-2" value="{{ request('cryptoCoin') }}">
-                        <x-secondary-button class="ml-2">Search</x-secondary-button>
-                    </div>
-                </form>
+
 
                 <script>
                     function submitForm(event) {
