@@ -1,3 +1,8 @@
+<style>
+    #balance {
+        font-weight: bold;
+    }
+</style>
 <section class="space-y-6">
     <div class="bg-white overflow-hidden shadow sm:rounded-lg">
 
@@ -9,7 +14,7 @@
                     Account Number: {{ $account->number }}
                 </div>
                 <div class="text-gray-700 font-medium text-sm">
-                    Balance: {{ $account->balance }} {{ $account->currency }}
+                    <span id="balance">Balance:</span> {{ $account->balance }} {{ $account->currency }}
                 </div>
             </div>
 
