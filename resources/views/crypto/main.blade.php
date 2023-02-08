@@ -40,6 +40,10 @@
         p {
             margin-bottom: 8px;
         }
+
+        #balance {
+            font-weight: bold;
+        }
     </style>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -68,7 +72,7 @@
                                 Account Number: {{ $account->number }}
                             </div>
                             <div class="text-gray-700 font-medium text-sm">
-                                Balance: {{ $account->balance }} {{ $account->currency }}
+                                <span id="balance">Balance:</span> {{ $account->balance }} {{ $account->currency }}
                             </div>
                             <div class="inline-flex items-center space-x-4 py-1">
                                 <a href="{{ route('crypto.portfolio') }}"
