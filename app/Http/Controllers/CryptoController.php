@@ -33,6 +33,7 @@ class CryptoController extends Controller
         $coin = Cache::get('coins')->where('symbol', $symbol)->first();
         if ($coin === null) {
             $coin = $this->coinMarketCapRepository->getSingle($symbol);
+            Cache::put('coins', Cache::get('coins')->push($coin), now()->addMinutes(120));
         }
         $account = auth()->user()->accounts()->where('name', 'CRYPTO')->first();
         $userCoin = UserCrypto::where('account_id', $account->id)->where('coin', $symbol)->first();

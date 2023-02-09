@@ -31,6 +31,7 @@ class UserCrypto extends Model
         if ($crypto === null) {
             $coinMarketCapRepository = new CoinMarketCapRepository();
             $crypto = $coinMarketCapRepository->getSingle($this->coin);
+            Cache::put('coins', Cache::get('coins')->push($crypto), now()->addMinutes(120));
         }
         return $crypto;
     }
