@@ -1,7 +1,9 @@
 <x-app-layout>
     <style>
         .account-name:hover,
-        .account-name:active {
+        .account-name:active,
+        .transaction:hover,
+        .transaction:active {
             color: #6b7280;
             text-decoration: none;
         }
@@ -59,7 +61,7 @@
                                 <a href="{{ route('statements.transaction', $transaction) }}">
                                 <li class="flex items center space-x-4 py-1 border-b border-gray-300">
                                     <div class="flex-1">
-                                        <div class="text-gray-700 font-bold">
+                                        <div class="text-gray-700 font-bold transaction">
                                             @if ($transaction->getAccountTo->user == $transaction->getAccountFrom->user)
                                                 To your {{ $transaction->getAccountTo->name }} account
                                                 <small class="ml-2">({{ $transaction->getAccountTo->number }})</small>
@@ -86,7 +88,7 @@
                                 <a href="{{ route('statements.transaction', $transaction) }}">
                                 <li class="flex items center space-x-4 py-1 border-b border-gray-300">
                                     <div class="flex-1">
-                                        <div class="text-gray-700 font-bold">
+                                        <div class="text-gray-700 font-bold transaction">
                                             @if ($transaction->getAccountFrom->user == $transaction->getAccountTo->user)
                                                 From your {{ $transaction->getAccountFrom->name }} account
                                                 <small class="ml-2">({{ $transaction->getAccountFrom->number }})</small>
