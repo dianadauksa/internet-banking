@@ -62,21 +62,36 @@ class CryptoController extends Controller
         $this->validate($request, $rules);
 
         $userCoin = UserCrypto::where('account_id', $account->id)->where('coin', $coin->symbol)->first();
-        if ($userCoin === null) {
-            $userCoin = new UserCrypto();
-            $userCoin->account_id = $account->id;
-            $userCoin->coin = $coin->symbol;
-            $userCoin->amount = $amount;
-            $userCoin->avg_price = $coin->price;
+        if ($userCoin === null || $userCoin->amount > 0) {
+            if ($userCoin === null) {
+                $userCoin = new UserCrypto();
+                $userCoin->account_id = $account->id;
+                $userCoin->coin = $coin->symbol;
+                $userCoin->amount = $amount;
+                $userCoin->avg_price = $coin->price;
+            } else {
+                $userCoin->amount += $amount;
+                $userCoin->avg_price = ($userCoin->avg_price * $userCoin->amount + $amount * $coin->price) / ($userCoin->amount + $amount);
+            }
+            $userCoin->save();
+            $this->recordBuyCryptoTransaction($account, $coin, $amount);
         } else {
-            $userCoin->amount += $amount;
-            $userCoin->avg_price = ($userCoin->avg_price * $userCoin->amount + $amount * $coin->price) / ($userCoin->amount + $amount);
+            if ($userCoin->amount < 0 && -$userCoin->amount < $amount) {
+                return Redirect::back()->with('error', 'Please sell your short position first');
+            } else {
+                $userCoin->amount += $amount;
+                $userCoin->save();
+                if ($userCoin->amount === 0) {
+                    $userCoin->delete();
+                    $this->recordCloseShortlistCryptoTransaction($account, $coin, $amount);
+                } else {
+                    $this->recordUpdateShortlistCryptoTransaction($account, $coin, $amount, false);
+                }
+            }
         }
-        $userCoin->save();
 
         $account->balance -= $amount * $coin->price;
         $account->save();
-        $this->recordBuyCryptoTransaction($account, $coin, $amount);
 
         return Redirect::back()->with(
             'status',
@@ -93,24 +108,44 @@ class CryptoController extends Controller
         $amount = $request->amount;
         $account = auth()->user()->accounts()->where('name', 'CRYPTO')->first();
         $userCoin = UserCrypto::where('account_id', $account->id)->where('coin', $coin->symbol)->first();
-        if ($userCoin === null || $userCoin->amount < $amount) {
-            return Redirect::back()->with('error', 'Not enough coins for the sale');
-        }
-        $rules = [
-            'amount' => 'required|numeric|min:1|max:' . $userCoin->amount,
-        ];
-        $this->validate($request, $rules);
 
-        $userCoin->amount -= $amount;
-        $userCoin->save();
-        if ($userCoin->amount === 0) {
-            $userCoin->delete();
+        if ($userCoin === null || $userCoin->amount < 0) {
+            $rules = [
+                'amount' => 'required|numeric|min:1|max:10',
+            ];
+            $this->validate($request, $rules);
+            if ($userCoin === null) {
+                $userCoin = new UserCrypto();
+                $userCoin->account_id = $account->id;
+                $userCoin->coin = $coin->symbol;
+                $userCoin->amount = -$amount;
+                $userCoin->avg_price = $coin->price;
+                $this->recordShortlistCryptoTransaction($account, $coin, $amount);
+            } else {
+                $userCoin->amount -= $amount;
+                $userCoin->avg_price = ($userCoin->avg_price * (-$userCoin->amount) + $amount * $coin->price) / ((-$userCoin->amount) + $amount);
+                $this->recordUpdateShortlistCryptoTransaction($account, $coin, $amount, true);
+            }
+            $userCoin->save();
+        } else {
+            if ($userCoin->amount > 0 && $userCoin->amount < $amount) {
+                return Redirect::back()->with('error', 'Not enough coins for the sale');
+            }
+            $rules = [
+                'amount' => 'required|numeric|min:1|max:' . $userCoin->amount,
+            ];
+            $this->validate($request, $rules);
+
+            $userCoin->amount -= $amount;
+            $userCoin->save();
+            if ($userCoin->amount === 0) {
+                $userCoin->delete();
+            }
+            $this->recordSellCryptoTransaction($account, $coin, $amount);
         }
 
         $account->balance += $amount * $coin->price;
         $account->save();
-        $this->recordSellCryptoTransaction($account, $coin, $amount);
-
         return Redirect::back()->with(
             'status',
             'Sale successful. You sold ' . $amount . ' ' . $coin->symbol . ' for $ ' . number_format($amount * $coin->price,2)
@@ -181,6 +216,42 @@ class CryptoController extends Controller
         $transaction->price = $coin->price;
         $transaction->total = $amount * $coin->price;
         $transaction->type = 'SELL';
+        $transaction->save();
+    }
+
+    private function recordShortlistCryptoTransaction(Account $account, CryptoCoin $coin, int $amount): void
+    {
+        $transaction = new CryptoTransaction();
+        $transaction->account_id = $account->id;
+        $transaction->coin = $coin->symbol;
+        $transaction->amount = $amount;
+        $transaction->price = $coin->price;
+        $transaction->total = $amount * $coin->price;
+        $transaction->type = 'SHORTLIST';
+        $transaction->save();
+    }
+
+    private function recordUpdateShortlistCryptoTransaction(Account $account, CryptoCoin $coin, int $amount, bool $increase): void
+    {
+        $transaction = new CryptoTransaction();
+        $transaction->account_id = $account->id;
+        $transaction->coin = $coin->symbol;
+        $transaction->amount = $amount;
+        $transaction->price = $coin->price;
+        $transaction->total = $amount * $coin->price;
+        $transaction->type = $increase ? 'INCREASE SHORTLIST' : 'DECREASE SHORTLIST';
+        $transaction->save();
+    }
+
+    private function recordCloseShortlistCryptoTransaction(Account $account, CryptoCoin $coin, int $amount): void
+    {
+        $transaction = new CryptoTransaction();
+        $transaction->account_id = $account->id;
+        $transaction->coin = $coin->symbol;
+        $transaction->amount = $amount;
+        $transaction->price = $coin->price;
+        $transaction->total = $amount * $coin->price;
+        $transaction->type = 'CLOSE SHORTLIST';
         $transaction->save();
     }
 }
