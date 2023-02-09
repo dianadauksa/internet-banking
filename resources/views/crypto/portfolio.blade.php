@@ -8,6 +8,7 @@
             font-weight: bold;
             border-bottom: 1px solid #ccc;
             padding-bottom: 4px;
+            padding-top: 16px;
             grid-template-areas:
         "coin name price amount value invested profit";
         }
@@ -62,6 +63,7 @@
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-2xl">
+                    <h1 class="font-semibold text-xl text-gray-800 leading-tight">Your Owned Cryptos</h1>
                     <div class="header">
                         <div class="header-coin">COIN</div>
                         <div class="header-name">NAME</div>
@@ -73,37 +75,98 @@
                     </div>
                     <ul>
                         @foreach($userCoins as $coin)
-                            <li class="crypto-coin">
-                                <a href="{{ route('crypto.show', $coin->coin) }}">
-                                <img src="{{ $coin->getCrypto()->logoURL }}" alt="{{$coin->coin}}" class="mx-auto">
-                                </a>
-                                <a href="{{ route('crypto.show', $coin->coin) }}">
-                                <h2 class="text-gray-600">{{ $coin->getCrypto()->name }} ({{ $coin->coin }})</h2>
-                                </a>
-                                <p class="text-gray-600">$ {{ number_format($coin->getCrypto()->price, 2) }}</p>
-                                <p>{{ $coin->amount }}</p>
-                                <p>${{ number_format(($coin->getCrypto()->price * $coin->amount), 2) }}</p>
-                                <p>${{ number_format(($coin->amount * $coin->avg_price), 2) }}</p>
-                                @if( ($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price) > 0)
-                                <p class="text-green-600">${{number_format(($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price), 2)}}</p>
-                                @else
-                                <p class="text-red-600">${{number_format(($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price), 2)}}</p>
-                                @endif
-                            </li>
+                            @if($coin->amount > 0)
+                                <li class="crypto-coin">
+                                    <a href="{{ route('crypto.show', $coin->coin) }}">
+                                        <img src="{{ $coin->getCrypto()->logoURL }}" alt="{{$coin->coin}}"
+                                             class="mx-auto">
+                                    </a>
+                                    <a href="{{ route('crypto.show', $coin->coin) }}">
+                                        <h2 class="text-gray-600">{{ $coin->getCrypto()->name }} ({{ $coin->coin }}
+                                            )</h2>
+                                    </a>
+                                    <p class="text-gray-600">$ {{ number_format($coin->getCrypto()->price, 2) }}</p>
+                                    <p>{{ $coin->amount }}</p>
+                                    <p>${{ number_format(($coin->getCrypto()->price * $coin->amount), 2) }}</p>
+                                    <p>${{ number_format(($coin->amount * $coin->avg_price), 2) }}</p>
+                                    @if( ($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price) > 0)
+                                        <p class="text-green-600">
+                                            ${{number_format(($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price), 2)}}</p>
+                                    @else
+                                        <p class="text-red-600">
+                                            ${{number_format(($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price), 2)}}</p>
+                                    @endif
+                                </li>
+                            @endif
                         @endforeach
-                            <li class="crypto-coin" id="total">
-                                <br>
-                                <p></p>
-                                <p></p>
-                                <h1>TOTAL:</h1>
-                                <h1>${{ number_format($value, 2) }}</h1>
-                                <h1>${{ number_format($invested, 2) }}</h1>
-                                @if($value-$invested > 0)
+                        <li class="crypto-coin" id="total">
+                            <br>
+                            <p></p>
+                            <p></p>
+                            <h1>TOTAL:</h1>
+                            <h1>${{ number_format($value, 2) }}</h1>
+                            <h1>${{ number_format($invested, 2) }}</h1>
+                            @if($value-$invested > 0)
                                 <h1 class="text-green-600">${{ number_format($value-$invested, 2) }}</h1>
-                                @else
+                            @else
                                 <h1 class="text-red-600">${{ number_format($value-$invested, 2) }}</h1>
-                                @endif
-                            </li>
+                            @endif
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-2xl">
+                    <h1 class="font-semibold text-xl text-gray-800 leading-tight">Your Shortlisted Cryptos</h1>
+                    <div class="header">
+                        <div class="header-coin">COIN</div>
+                        <div class="header-name">NAME</div>
+                        <div class="header-price">PRICE IN USD</div>
+                        <div class="header-amount">AMOUNT SHORTLISTED</div>
+                        <div class="header-value">VALUE</div>
+                        <div class="header-invested">SHORTLISTED FOR</div>
+                        <div class="header-profit">PROFIT/LOSS</div>
+                    </div>
+                    <ul>
+                        @foreach($userCoins as $coin)
+                            @if($coin->amount < 0)
+                                <li class="crypto-coin">
+                                    <a href="{{ route('crypto.show', $coin->coin) }}">
+                                        <img src="{{ $coin->getCrypto()->logoURL }}" alt="{{$coin->coin}}"
+                                             class="mx-auto">
+                                    </a>
+                                    <a href="{{ route('crypto.show', $coin->coin) }}">
+                                        <h2 class="text-gray-600">{{ $coin->getCrypto()->name }} ({{ $coin->coin }}
+                                            )</h2>
+                                    </a>
+                                    <p class="text-gray-600">$ {{ number_format($coin->getCrypto()->price, 2) }}</p>
+                                    <p>{{ -$coin->amount }}</p>
+                                    <p>${{ number_format(($coin->getCrypto()->price * -$coin->amount), 2) }}</p>
+                                    <p>${{ number_format((-$coin->amount * $coin->avg_price), 2) }}</p>
+                                    @if( ((-$coin->amount) * $coin->avg_price - $coin->getCrypto()->price * $coin->amount) > 0)
+                                        <p class="text-green-600">
+                                            ${{number_format((-($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price)), 2)}}</p>
+                                    @else
+                                        <p class="text-red-600">
+                                            ${{number_format((-($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price)), 2)}}</p>
+                                    @endif
+                                </li>
+                            @endif
+                        @endforeach
+                        <li class="crypto-coin" id="total">
+                            <br>
+                            <p></p>
+                            <p></p>
+                            <h1>TOTAL:</h1>
+                            <h1>${{ number_format($value, 2) }}</h1>
+                            <h1>${{ number_format($invested, 2) }}</h1>
+                            @if($value-$invested > 0)
+                                <h1 class="text-green-600">${{ number_format($value-$invested, 2) }}</h1>
+                            @else
+                                <h1 class="text-red-600">${{ number_format($value-$invested, 2) }}</h1>
+                            @endif
+                        </li>
                     </ul>
                 </div>
             </div>
