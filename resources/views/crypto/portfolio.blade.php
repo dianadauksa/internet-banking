@@ -77,7 +77,7 @@
                         <div class="header-amount">AMOUNT</div>
                         <div class="header-value">VALUE</div>
                         <div class="header-invested">INVESTED</div>
-                        <div class="header-profit">PROFIT/LOSS</div>
+                        <div class="header-profit">PROFIT & LOSS</div>
                     </div>
                     <ul>
                         @foreach($userCoins as $coin)
@@ -132,7 +132,7 @@
                         <div class="header-amount">AMOUNT</div>
                         <div class="header-value">PRICE NOW</div>
                         <div class="header-invested">SHORTLISTED FOR</div>
-                        <div class="header-profit">PROFIT/LOSS</div>
+                        <div class="header-profit">PROFIT & LOSS</div>
                     </div>
                     <ul>
                         @foreach($userCoins as $coin)

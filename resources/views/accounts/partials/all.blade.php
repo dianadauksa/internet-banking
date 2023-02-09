@@ -16,7 +16,7 @@
                     Account Number: {{ $account->number }}
                 </div>
                 <div class="text-gray-700 font-medium text-sm">
-                    <span id="balance">Balance:</span> {{ $account->balance }} {{ $account->currency }}
+                    <span id="balance">Balance:</span> {{ number_format($account->balance,2) }} {{ $account->currency }}
                 </div>
             </div>
             @endif
