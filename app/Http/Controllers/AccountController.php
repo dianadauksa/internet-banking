@@ -35,6 +35,9 @@ class AccountController extends Controller
         if ($account->name === 'MAIN') {
             return Redirect::back()->withErrors(['main-account' => 'You cannot change the name of MAIN account']);
         }
+        if ($account->name === 'CRYPTO') {
+            return Redirect::back()->withErrors(['crypto-account' => 'You cannot change the name of CRYPTO account']);
+        }
         $account->update($request->only('name'));
         return Redirect::back()->with('status', 'name-updated');
     }
