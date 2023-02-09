@@ -68,7 +68,7 @@
                         <div class="header-coin">COIN</div>
                         <div class="header-name">NAME</div>
                         <div class="header-price">PRICE IN USD</div>
-                        <div class="header-amount">AMOUNT OWNED</div>
+                        <div class="header-amount">AMOUNT</div>
                         <div class="header-value">VALUE</div>
                         <div class="header-invested">INVESTED</div>
                         <div class="header-profit">PROFIT/LOSS</div>
@@ -104,12 +104,12 @@
                             <p></p>
                             <p></p>
                             <h1>TOTAL:</h1>
-                            <h1>${{ number_format($value, 2) }}</h1>
-                            <h1>${{ number_format($invested, 2) }}</h1>
-                            @if($value-$invested > 0)
-                                <h1 class="text-green-600">${{ number_format($value-$invested, 2) }}</h1>
+                            <h1>${{ number_format($ownedValue, 2) }}</h1>
+                            <h1>${{ number_format($ownedInvested, 2) }}</h1>
+                            @if($ownedValue > $ownedInvested)
+                                <h1 class="text-green-600">${{ number_format($ownedValue-$ownedInvested, 2) }}</h1>
                             @else
-                                <h1 class="text-red-600">${{ number_format($value-$invested, 2) }}</h1>
+                                <h1 class="text-red-600">${{ number_format($ownedValue-$ownedInvested, 2) }}</h1>
                             @endif
                         </li>
                     </ul>
@@ -123,8 +123,8 @@
                         <div class="header-coin">COIN</div>
                         <div class="header-name">NAME</div>
                         <div class="header-price">PRICE IN USD</div>
-                        <div class="header-amount">AMOUNT SHORTLISTED</div>
-                        <div class="header-value">VALUE</div>
+                        <div class="header-amount">AMOUNT</div>
+                        <div class="header-value">PRICE NOW</div>
                         <div class="header-invested">SHORTLISTED FOR</div>
                         <div class="header-profit">PROFIT/LOSS</div>
                     </div>
@@ -144,12 +144,12 @@
                                     <p>{{ -$coin->amount }}</p>
                                     <p>${{ number_format(($coin->getCrypto()->price * -$coin->amount), 2) }}</p>
                                     <p>${{ number_format((-$coin->amount * $coin->avg_price), 2) }}</p>
-                                    @if( ((-$coin->amount) * $coin->avg_price - $coin->getCrypto()->price * $coin->amount) > 0)
+                                    @if(($coin->getCrypto()->price * -$coin->amount) < (-$coin->amount * $coin->avg_price))
                                         <p class="text-green-600">
-                                            ${{number_format((-($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price)), 2)}}</p>
+                                            ${{number_format((-$coin->amount * $coin->avg_price)-($coin->getCrypto()->price * -$coin->amount), 2)}}</p>
                                     @else
                                         <p class="text-red-600">
-                                            ${{number_format((-($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price)), 2)}}</p>
+                                            ${{number_format((-$coin->amount * $coin->avg_price)-($coin->getCrypto()->price * -$coin->amount), 2)}}</p>
                                     @endif
                                 </li>
                             @endif
@@ -159,12 +159,12 @@
                             <p></p>
                             <p></p>
                             <h1>TOTAL:</h1>
-                            <h1>${{ number_format($value, 2) }}</h1>
-                            <h1>${{ number_format($invested, 2) }}</h1>
-                            @if($value-$invested > 0)
-                                <h1 class="text-green-600">${{ number_format($value-$invested, 2) }}</h1>
+                            <h1>${{ number_format($shortedPrice, 2) }}</h1>
+                            <h1>${{ number_format($shortedFor, 2) }}</h1>
+                            @if($shortedPrice < $shortedFor)
+                                <h1 class="text-green-600">${{ number_format($shortedFor-$shortedPrice, 2) }}</h1>
                             @else
-                                <h1 class="text-red-600">${{ number_format($value-$invested, 2) }}</h1>
+                                <h1 class="text-red-600">${{ number_format($shortedFor-$shortedPrice, 2) }}</h1>
                             @endif
                         </li>
                     </ul>
