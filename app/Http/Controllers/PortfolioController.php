@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\UserCrypto;
 use Illuminate\View\View;
 
@@ -12,13 +13,25 @@ class PortfolioController extends Controller
         $user = auth()->user();
         $account = $user->accounts()->where('name', 'CRYPTO')->first();
         $userCoins = UserCrypto::where('account_id', $account->id)->get();
-        $value = 0;
-        $invested = 0;
-        foreach($userCoins as $userCoin) {
-            $crypto = $userCoin->getCrypto();
-            $value += $userCoin->amount * $crypto->price;
-            $invested += $userCoin->amount * $userCoin->avg_price;
+        $ownedValue = 0;
+        $ownedInvested = 0;
+        $shortedPrice = 0;
+        $shortedFor = 0;
+        foreach ($userCoins as $userCoin) {
+            if ($userCoin->amount > 0) {
+                $ownedValue += $userCoin->amount * $userCoin->getCrypto()->price;
+                $ownedInvested += $userCoin->amount * $userCoin->avg_price;
+            } else {
+                $shortedPrice += -$userCoin->amount * $userCoin->getCrypto()->price;
+                $shortedFor += -$userCoin->amount * $userCoin->avg_price;
+            }
         }
-        return view('crypto.portfolio', ['userCoins' => $userCoins, 'value' => $value, 'invested' => $invested]);
+
+        return view('crypto.portfolio', [
+            'userCoins' => $userCoins,
+            'ownedValue' => $ownedValue,
+            'ownedInvested' => $ownedInvested,
+            'shortedPrice' => $shortedPrice,
+            'shortedFor' => $shortedFor]);
     }
 }
