@@ -134,7 +134,19 @@
                             <x-primary-button class="ml-2">Sell {{ $coin->name }}</x-primary-button>
                         </form>
                         @if($userCoin)
-                            <p class="text-gray-600 ml-4 mt-3">You already own {{$userCoin->amount}} {{$coin->name}}</p>
+                            @if($userCoin->amount > 0)
+                                <div class="ml-4 mt-2">
+                                    <p class="text-gray-700 font-medium">
+                                        You have {{ $userCoin->amount }} {{ $coin->symbol }} in your account
+                                    </p>
+                                </div>
+                            @else
+                                <div class="ml-4 mt-2">
+                                    <p class="text-gray-700 font-medium">
+                                        You have shortlisted {{ -$userCoin->amount }} {{ $coin->symbol }} in your account
+                                    </p>
+                                </div>
+                            @endif
                         @endif
                     </div>
 
