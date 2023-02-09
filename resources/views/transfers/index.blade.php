@@ -39,7 +39,7 @@
                                 </div>
 
                                 <div class="flex justify-center">
-                                    <form action="{{ route('transfers.make', $selectedIndex) }}" method="post">
+                                    <form action="{{ route('transfers.make') }}" method="post">
                                         @csrf
                                         <div class="flex flex-col items-center">
                                             @if ($errors->any())
@@ -92,7 +92,7 @@
 
                                             <div id="security-code-field" style="display:none">
                                                 <x-input-label class="mt-4 text-center" for="security_code"
-                                                               value="Security Code No. {{$selectedIndex + 1}}"/>
+                                                               value="Security Code No. {{session('selectedIndex') + 1}}"/>
                                                 <x-text-input
                                                     id="security_code"
                                                     name="security_code"

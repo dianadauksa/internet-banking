@@ -15,15 +15,17 @@ class TransferController extends Controller
         $accounts = auth()->user()->accounts()->get();
         $codes = auth()->user()->getSecurityCodes();
         $selectedIndex = array_rand($codes);
+        session(['selectedIndex' => $selectedIndex]);
 
-        return view('transfers.index', ['accounts' => $accounts, 'selectedIndex' => $selectedIndex]);
+        return view('transfers.index', ['accounts' => $accounts]);
     }
 
-    public function makeTransfer(Request $request, int $selectedIndex): RedirectResponse
+    public function makeTransfer(Request $request): RedirectResponse
     {
         $senderAccount = Account::where('id', $request->account_from)->firstOrFail();
         $receiverAccount = Account::where('number', $request->account_to)->firstOrFail();
         $codes = auth()->user()->getSecurityCodes();
+        $selectedIndex = session('selectedIndex');
         $selectedCode = $codes[$selectedIndex];
         request()->merge(['selected_code' => $selectedCode]);
 
@@ -55,7 +57,9 @@ class TransferController extends Controller
         $receiverAccount->save();
 
         $this->recordTransactions($senderAccount, $receiverAccount, $request->amount, $exchangedAmount);
-
+        session()->forget('selectedIndex');
+        $selectedIndex = array_rand($codes);
+        session(['selectedIndex' => $selectedIndex]);
         return Redirect::back()
             ->with('status',
                 "You transferred $request->amount $senderAccount->currency to " . $receiverAccount->user->firstName
