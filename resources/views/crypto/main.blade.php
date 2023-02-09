@@ -103,7 +103,7 @@
                             <input type="text" name="symbol" placeholder="Search a coin, e.g. ADA"
                                    class="form-input w-52 rounded-md shadow-sm mr-2"
                                    value="{{ request('cryptoCoin') }}">
-                            <x-secondary-button class="ml-2">Search</x-secondary-button>
+                            <x-primary-button class="ml-2">Search</x-primary-button>
                         </div>
                     </form>
                 </div>
