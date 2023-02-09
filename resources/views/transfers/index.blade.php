@@ -57,10 +57,12 @@
                                                     class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                                                     required autofocus autocomplete="account_from">
                                                 @foreach ($accounts as $account)
-                                                    <option
-                                                        value="{{ $account->id }}">{{$account->currency}} {{ $account->balance }} {{ $account->name }}
-                                                        ({{ $account->number }})
-                                                    </option>
+                                                    @if($account->name !== 'CRYPTO')
+                                                        <option
+                                                            value="{{ $account->id }}">{{$account->currency}} {{ $account->balance }} {{ $account->name }}
+                                                            ({{ $account->number }})
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
 
