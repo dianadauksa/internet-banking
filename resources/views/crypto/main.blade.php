@@ -22,6 +22,12 @@
         "coin name price change1h change24h";
         }
 
+        .crypto-link:hover,
+        .crypto-link:active {
+            color: #6b7280;
+            text-decoration: none;
+        }
+
         li {
             border-bottom: 1px solid #ccc;
             padding-top: 4px;
@@ -134,9 +140,9 @@
                                     <img src="{{ $coin->logoURL }}" alt="{{ $coin->name }}" class="mx-auto">
                                 </a>
                                 <a href="{{ route('crypto.show', $coin->symbol) }}">
-                                    <h2>{{ $coin->name }} ({{ $coin->symbol }})</h2>
+                                    <h2 class="text-gray-700 crypto-link">{{ $coin->name }} ({{ $coin->symbol }})</h2>
                                 </a>
-                                <p>$ {{ number_format($coin->price, 2) }}</p>
+                                <p class="text-gray-700">$ {{ number_format($coin->price, 2) }}</p>
                                 @if ($coin->priceChange1h > 0)
                                     <p class="text-green-600">{{ number_format($coin->priceChange1h, 2) }}%</p>
                                 @else

@@ -23,6 +23,12 @@
         "coin name price amount value invested profit";
         }
 
+        .crypto-link:hover,
+        .crypto-link:active {
+            color: #6b7280;
+            text-decoration: none;
+        }
+
         li {
             border-bottom: 1px solid #ccc;
             padding-top: 4px;
@@ -82,13 +88,13 @@
                                              class="mx-auto">
                                     </a>
                                     <a href="{{ route('crypto.show', $coin->coin) }}">
-                                        <h2 class="text-gray-600">{{ $coin->getCrypto()->name }} ({{ $coin->coin }}
+                                        <h2 class="text-gray-700 crypto-link">{{ $coin->getCrypto()->name }} ({{ $coin->coin }}
                                             )</h2>
                                     </a>
-                                    <p class="text-gray-600">$ {{ number_format($coin->getCrypto()->price, 2) }}</p>
-                                    <p>{{ $coin->amount }}</p>
-                                    <p>${{ number_format(($coin->getCrypto()->price * $coin->amount), 2) }}</p>
-                                    <p>${{ number_format(($coin->amount * $coin->avg_price), 2) }}</p>
+                                    <p class="text-gray-700">$ {{ number_format($coin->getCrypto()->price, 2) }}</p>
+                                    <p class="text-gray-700">{{ $coin->amount }}</p>
+                                    <p class="text-gray-700">${{ number_format(($coin->getCrypto()->price * $coin->amount), 2) }}</p>
+                                    <p class="text-gray-700">${{ number_format(($coin->amount * $coin->avg_price), 2) }}</p>
                                     @if( ($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price) > 0)
                                         <p class="text-green-600">
                                             ${{number_format(($coin->getCrypto()->price * $coin->amount - $coin->amount * $coin->avg_price), 2)}}</p>
@@ -137,13 +143,13 @@
                                              class="mx-auto">
                                     </a>
                                     <a href="{{ route('crypto.show', $coin->coin) }}">
-                                        <h2 class="text-gray-600">{{ $coin->getCrypto()->name }} ({{ $coin->coin }}
+                                        <h2 class="text-gray-700 crypto-link">{{ $coin->getCrypto()->name }} ({{ $coin->coin }}
                                             )</h2>
                                     </a>
-                                    <p class="text-gray-600">$ {{ number_format($coin->getCrypto()->price, 2) }}</p>
-                                    <p>{{ -$coin->amount }}</p>
-                                    <p>${{ number_format(($coin->getCrypto()->price * -$coin->amount), 2) }}</p>
-                                    <p>${{ number_format((-$coin->amount * $coin->avg_price), 2) }}</p>
+                                    <p class="text-gray-700">$ {{ number_format($coin->getCrypto()->price, 2) }}</p>
+                                    <p class="text-gray-700">{{ -$coin->amount }}</p>
+                                    <p class="text-gray-700">${{ number_format(($coin->getCrypto()->price * -$coin->amount), 2) }}</p>
+                                    <p class="text-gray-700">${{ number_format((-$coin->amount * $coin->avg_price), 2) }}</p>
                                     @if(($coin->getCrypto()->price * -$coin->amount) < (-$coin->amount * $coin->avg_price))
                                         <p class="text-green-600">
                                             ${{number_format((-$coin->amount * $coin->avg_price)-($coin->getCrypto()->price * -$coin->amount), 2)}}</p>
