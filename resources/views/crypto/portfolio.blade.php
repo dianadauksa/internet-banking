@@ -51,12 +51,12 @@
             font-weight: bold;
         }
 
-        h2 {
-            margin-bottom: 8px;
+        .crypto-link {
+            margin-bottom: 4px;
         }
 
         p {
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
     </style>
     <x-slot name="header">

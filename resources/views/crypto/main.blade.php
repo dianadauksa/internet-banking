@@ -39,12 +39,12 @@
             height: 48px;
         }
 
-        h2 {
-            margin-bottom: 8px;
+        .crypto-link {
+            margin-bottom: 4px;
         }
 
         p {
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         #balance {

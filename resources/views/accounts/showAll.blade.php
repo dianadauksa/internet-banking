@@ -20,7 +20,7 @@
             class="mt-4 text-center text-lg text-red-600"
         >{{ __('Bank Account Deleted') }}</p>
     @endif
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             @include('accounts.partials.all')
 
